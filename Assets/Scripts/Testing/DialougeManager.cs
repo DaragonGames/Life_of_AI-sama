@@ -29,7 +29,7 @@ public class DialougeManager : MonoBehaviour
         string prompt = ChatGPTConnector.memory + "This is the latest user message: " + UserInput + " " + "Please respond to the message consider the context as needed.";
         if (i==1)
         { prompt = UserInput; }
-        yield return Run<string>(ChatGPTConnector.SendRequest(prompt), (output) => s = output);
+        yield return Run<string>(ChatGPTConnector.SendRequestOld(prompt), (output) => s = output);
         s = ChatGPTConnector.ExtractMessage(s);
         text3.text = s;
         
