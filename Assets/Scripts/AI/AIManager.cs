@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 public static class AIManager
 {
@@ -8,6 +7,7 @@ public static class AIManager
     public static void Initialize()
     {
         ChatGPTConnector.GetApiKey();
+        OpenGPTConnector.SetPath();
         promptGenerator = new PromptGenerator();
     }
 
@@ -17,7 +17,8 @@ public static class AIManager
         // Sends request to Connector (GPT or LLama)
         // Currently hardcoded for GPT
         string prompt = promptGenerator.defaultPrompt(userInput);
-        ChatGPTConnector.SendRequest(prompt);
+        //ChatGPTConnector.SendRequest(prompt);
+        OpenGPTConnector.SendRequest(prompt);
     }
 
     // Is triggered from AI Clonnectors

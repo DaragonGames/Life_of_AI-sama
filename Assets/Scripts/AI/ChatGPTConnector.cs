@@ -1,11 +1,10 @@
 using UnityEngine;
-using System.Collections;
 using System.Text;
 using UnityEngine.Networking;
 using System.IO;
 using System.Collections.Generic;
 
-public class ChatGPTConnector : MonoBehaviour
+public static class ChatGPTConnector
 {
   private static string apiKey;
 
@@ -34,7 +33,7 @@ public class ChatGPTConnector : MonoBehaviour
     }
   }
 
-  void CreateKeyFile()
+  public static void CreateKeyFile()
   {
     string key = "";
     string path = Path.Combine(Application.persistentDataPath, "apiKey.txt");
