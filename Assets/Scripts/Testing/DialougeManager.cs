@@ -19,22 +19,23 @@ public class DialougeManager : MonoBehaviour
         text2.text = inputText.text;
         text3.text = "Waiting for response... " + i;
         i++;
-        StartCoroutine(HandleResponse(inputText.text));
+        //StartCoroutine(HandleResponse(inputText.text));
         inputText.text = "";
     }
 
     IEnumerator HandleResponse(string UserInput)
     {
         string s = "";
-        string prompt = ChatGPTConnector.memory + "This is the latest user message: " + UserInput + " " + "Please respond to the message consider the context as needed.";
-        if (i==1)
+        //string prompt = ChatGPTConnector.memory + "This is the latest user message: " + UserInput + " " + "Please respond to the message consider the context as needed.";
+        /*if (i==1)
         { prompt = UserInput; }
         yield return Run<string>(ChatGPTConnector.SendRequestOld(prompt), (output) => s = output);
-        s = ChatGPTConnector.ExtractMessage(s);
+        s = ChatGPTConnector.ExtractMessage(s);*/
+        yield return new WaitForSeconds(0);
         text3.text = s;
         
-        ChatGPTConnector.memory += "User Message: " + UserInput + " ";
-        ChatGPTConnector.memory += "Your Message: " + s + " ";
+        //ChatGPTConnector.memory += "User Message: " + UserInput + " ";
+        //ChatGPTConnector.memory += "Your Message: " + s + " ";
     }
 
     public static IEnumerator Run<T>(IEnumerator target, System.Action<T> output)

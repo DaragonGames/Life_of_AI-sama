@@ -9,10 +9,9 @@ public class GameUI : MonoBehaviour
     void Start()
     {
         AIManager.AIResponse += UpdateNPCText;
-        ChatGPTConnector.GetApiKey(); // Move this part
     }
 
-    void Oestroy()
+    void OnDestroy()
     {
         AIManager.AIResponse -= UpdateNPCText;
     }

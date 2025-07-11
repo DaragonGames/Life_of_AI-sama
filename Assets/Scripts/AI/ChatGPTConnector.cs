@@ -7,25 +7,7 @@ using System.Collections.Generic;
 
 public class ChatGPTConnector : MonoBehaviour
 {
-  //  This line does not belong here
-  public static string memory = "Our conversation so far has been: ";
   private static string apiKey;
-
-  public static IEnumerator SendRequestOld(string request)
-  {
-    string json = "{\"model\":\"gpt-4o-mini\",\"messages\":[{\"role\":\"user\",\"content\":\"" + request + "\"}]}";
-
-    UnityWebRequest req = new UnityWebRequest("https://api.openai.com/v1/chat/completions", "POST");
-    byte[] body = Encoding.UTF8.GetBytes(json);
-    req.uploadHandler = new UploadHandlerRaw(body);
-    req.downloadHandler = new DownloadHandlerBuffer();
-    req.SetRequestHeader("Content-Type", "application/json");
-    req.SetRequestHeader("Authorization", "Bearer " + apiKey);
-
-    yield return req.SendWebRequest();    
-    string response = ExtractMessage(req.downloadHandler.text);
-    AIManager.TextResponse(response);
-  }
 
   public static async void SendRequest(string request)
   {
@@ -62,6 +44,7 @@ public class ChatGPTConnector : MonoBehaviour
 
   public static string ExtractMessage(string input)
   {
+    Debug.Log(input);
     try
     {
       Dictionary<string, object> data = ProcessGptOutput(input);
@@ -86,6 +69,7 @@ public class ChatGPTConnector : MonoBehaviour
     const int StateAfterKey = 2;
     const int StateReadingValue = 3;
     const int DeepNestingThreshold = 4;
+    bool escapeCharacter = false;
 
     foreach (char c in input)
     {
@@ -115,6 +99,12 @@ public class ChatGPTConnector : MonoBehaviour
       // Find Value
       if (openings.Length >= StateReadingValue)
       {
+        if (escapeCharacter||c == '\\')
+        {
+          value += c;
+          escapeCharacter =!escapeCharacter;
+          continue;
+        }
         if (c == '"' || c == '[' || c == '{' || c == ']' || c == '}')
         {
           openings += c;
