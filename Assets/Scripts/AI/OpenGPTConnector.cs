@@ -4,17 +4,11 @@ using System.Diagnostics;
 
 public static class OpenGPTConnector
 {
-    public static async void FromCHATGPT(string request)
-    {
-        // await req.SendWebRequest();
-    }
-
     private static string path = "";
 
     public static void SendRequest(string request)
     {
         string arguments = request.Replace(' ', '_');
-
 
         ProcessStartInfo startInfo = new ProcessStartInfo(path, arguments)
         {
