@@ -19,10 +19,7 @@ public class RunWhisper : MonoBehaviour
     const int END_OF_TEXT = 50257;
     const int START_OF_TRANSCRIPT = 50258;
     const int ENGLISH = 50259;
-    const int GERMAN = 50261;
-    const int FRENCH = 50265;
     const int TRANSCRIBE = 50359; //for speech-to-text in specified language
-    const int TRANSLATE = 50358;  //for speech-to-text then translate to English
     const int NO_TIME_STAMPS = 50363;
     const int START_TIME = 50364;
 
@@ -47,7 +44,7 @@ public class RunWhisper : MonoBehaviour
     public ModelAsset audioEncoder;
     public ModelAsset logMelSpectro;
 
-    public async void Start()
+    public void Start()
     {
         SetupWhiteSpaceShifts();
         GetTokens();
@@ -64,12 +61,16 @@ public class RunWhisper : MonoBehaviour
         encoder = new Worker(ModelLoader.Load(audioEncoder), BackendType.GPUCompute);
         spectrogram = new Worker(ModelLoader.Load(logMelSpectro), BackendType.GPUCompute);
 
+        DoIt();
+    }
+
+    public async void DoIt()
+    {
         outputTokens = new NativeArray<int>(maxTokens, Allocator.Persistent);
 
         outputTokens[0] = START_OF_TRANSCRIPT;
-        outputTokens[1] = ENGLISH;// GERMAN;//FRENCH;//
-        outputTokens[2] = TRANSCRIBE; //TRANSLATE;//
-        //outputTokens[3] = NO_TIME_STAMPS;// START_TIME;//
+        outputTokens[1] = ENGLISH;
+        outputTokens[2] = TRANSCRIBE;
         tokenCount = 3;
 
         LoadAudio();
@@ -121,42 +122,20 @@ public class RunWhisper : MonoBehaviour
         decoder1.SetInput("encoder_hidden_states", encodedAudio);
         decoder1.Schedule();
 
-        var past_key_values_0_decoder_key = decoder1.PeekOutput("present.0.decoder.key") as Tensor<float>;
-        var past_key_values_0_decoder_value = decoder1.PeekOutput("present.0.decoder.value") as Tensor<float>;
-        var past_key_values_1_decoder_key = decoder1.PeekOutput("present.1.decoder.key") as Tensor<float>;
-        var past_key_values_1_decoder_value = decoder1.PeekOutput("present.1.decoder.value") as Tensor<float>;
-        var past_key_values_2_decoder_key = decoder1.PeekOutput("present.2.decoder.key") as Tensor<float>;
-        var past_key_values_2_decoder_value = decoder1.PeekOutput("present.2.decoder.value") as Tensor<float>;
-        var past_key_values_3_decoder_key = decoder1.PeekOutput("present.3.decoder.key") as Tensor<float>;
-        var past_key_values_3_decoder_value = decoder1.PeekOutput("present.3.decoder.value") as Tensor<float>;
-
-        var past_key_values_0_encoder_key = decoder1.PeekOutput("present.0.encoder.key") as Tensor<float>;
-        var past_key_values_0_encoder_value = decoder1.PeekOutput("present.0.encoder.value") as Tensor<float>;
-        var past_key_values_1_encoder_key = decoder1.PeekOutput("present.1.encoder.key") as Tensor<float>;
-        var past_key_values_1_encoder_value = decoder1.PeekOutput("present.1.encoder.value") as Tensor<float>;
-        var past_key_values_2_encoder_key = decoder1.PeekOutput("present.2.encoder.key") as Tensor<float>;
-        var past_key_values_2_encoder_value = decoder1.PeekOutput("present.2.encoder.value") as Tensor<float>;
-        var past_key_values_3_encoder_key = decoder1.PeekOutput("present.3.encoder.key") as Tensor<float>;
-        var past_key_values_3_encoder_value = decoder1.PeekOutput("present.3.encoder.value") as Tensor<float>;
 
         decoder2.SetInput("input_ids", lastTokenTensor);
-        decoder2.SetInput("past_key_values.0.decoder.key", past_key_values_0_decoder_key);
-        decoder2.SetInput("past_key_values.0.decoder.value", past_key_values_0_decoder_value);
-        decoder2.SetInput("past_key_values.1.decoder.key", past_key_values_1_decoder_key);
-        decoder2.SetInput("past_key_values.1.decoder.value", past_key_values_1_decoder_value);
-        decoder2.SetInput("past_key_values.2.decoder.key", past_key_values_2_decoder_key);
-        decoder2.SetInput("past_key_values.2.decoder.value", past_key_values_2_decoder_value);
-        decoder2.SetInput("past_key_values.3.decoder.key", past_key_values_3_decoder_key);
-        decoder2.SetInput("past_key_values.3.decoder.value", past_key_values_3_decoder_value);
+        for (int i = 0; i < 12; i++)
+        {
+            var past_key_values_decoder_key = decoder1.PeekOutput("present." + i + ".decoder.key") as Tensor<float>;
+            var past_key_values_decoder_value = decoder1.PeekOutput("present." + i + ".decoder.value") as Tensor<float>;
+            var past_key_values_encoder_key = decoder1.PeekOutput("present." + i + ".encoder.key") as Tensor<float>;
+            var past_key_values_encoder_value = decoder1.PeekOutput("present." + i + ".encoder.value") as Tensor<float>;
 
-        decoder2.SetInput("past_key_values.0.encoder.key", past_key_values_0_encoder_key);
-        decoder2.SetInput("past_key_values.0.encoder.value", past_key_values_0_encoder_value);
-        decoder2.SetInput("past_key_values.1.encoder.key", past_key_values_1_encoder_key);
-        decoder2.SetInput("past_key_values.1.encoder.value", past_key_values_1_encoder_value);
-        decoder2.SetInput("past_key_values.2.encoder.key", past_key_values_2_encoder_key);
-        decoder2.SetInput("past_key_values.2.encoder.value", past_key_values_2_encoder_value);
-        decoder2.SetInput("past_key_values.3.encoder.key", past_key_values_3_encoder_key);
-        decoder2.SetInput("past_key_values.3.encoder.value", past_key_values_3_encoder_value);
+            decoder2.SetInput("past_key_values." + i + ".decoder.key", past_key_values_decoder_key);
+            decoder2.SetInput("past_key_values." + i + ".decoder.value", past_key_values_decoder_value);
+            decoder2.SetInput("past_key_values." + i + ".encoder.key", past_key_values_encoder_key);
+            decoder2.SetInput("past_key_values." + i + ".encoder.value", past_key_values_encoder_value);
+        }
 
         decoder2.Schedule();
 

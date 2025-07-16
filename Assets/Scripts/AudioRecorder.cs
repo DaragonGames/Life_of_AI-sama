@@ -38,7 +38,7 @@ public class AudioRecorder : MonoBehaviour
         {
             Microphone.End(null);
             whisperAPI.audioClip = ConvertToMono(recordedClip);
-            //whisperAPI.DoIt();
+            whisperAPI.DoIt();
         }
         else
         {

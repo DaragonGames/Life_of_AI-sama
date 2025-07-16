@@ -128,9 +128,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 132565300}
-  - component: {fileID: 132565299}
-  - component: {fileID: 132565301}
   - component: {fileID: 132565302}
+  - component: {fileID: 132565301}
   m_Layer: 0
   m_Name: SpeechRecorder
   m_TagString: Untagged
@@ -138,24 +137,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &132565299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 132565298}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36350c1a37c920b48a5ada87440003e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: fbe8244ecd0776e47962f24f07847637, type: 3}
-  audioDecoder1: {fileID: 5022602860645237092, guid: 7aafd9f651a37c54a852ed8f62edf2f7, type: 3}
-  audioDecoder2: {fileID: 5022602860645237092, guid: c294cd6db562ef841b4bd3957531adc2, type: 3}
-  audioEncoder: {fileID: 5022602860645237092, guid: 74e429eec242cb144b9075336fd11315, type: 3}
-  logMelSpectro: {fileID: 5022602860645237092, guid: f3c70effefe104c4cbdeb4a47b3ceb75, type: 3}
-  vocabAsset: {fileID: 4900000, guid: 5ef2a0a5ad405b64db6e6c38f1972875, type: 3}
 --- !u!4 &132565300
 Transform:
   m_ObjectHideFlags: 0
@@ -180,106 +161,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 132565298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99f51ca0e2a3c6e4085e2e6bf92c4168, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c8588a7bd1c7f84388623c16b7e0bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!82 &132565302
-AudioSource:
+  audioClip: {fileID: 8300000, guid: cbb0c5099add45942863a9d44321e33b, type: 3}
+  audioDecoder1: {fileID: 5022602860645237092, guid: 628bb9cb8cca8ff44a85eee96a92914e, type: 3}
+  audioDecoder2: {fileID: 5022602860645237092, guid: 121763c84d5c47e47b483b3372876083, type: 3}
+  audioEncoder: {fileID: 5022602860645237092, guid: 5b9ad18bd0c3d4f49b2fa57dc883ea20, type: 3}
+  logMelSpectro: {fileID: 5022602860645237092, guid: 42d49d26cef62614793b20dfa3198c37, type: 3}
+  vocabAsset: {fileID: 4900000, guid: da4328787bb26594cb71a836b32243e4, type: 3}
+--- !u!114 &132565302
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 132565298}
   m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f51ca0e2a3c6e4085e2e6bf92c4168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &362506232
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,7 +367,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 132565301}
+      - m_Target: {fileID: 132565302}
         m_TargetAssemblyTypeName: AudioRecorder, Assembly-CSharp
         m_MethodName: ToggleRecording
         m_Mode: 1
