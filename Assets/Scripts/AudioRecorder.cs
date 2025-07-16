@@ -8,12 +8,12 @@ public class AudioRecorder : MonoBehaviour
     private string selectedDevice;
     private const int sampleRate = 16000;
     private const int maxLength = 29;
-    //private RunWhisper whisperAPI;
+    private RunWhisper whisperAPI;
 
     void Start()
     {
         selectedDevice = Microphone.devices[0];
-        //whisperAPI = GetComponent<RunWhisper>();
+        whisperAPI = GetComponent<RunWhisper>();
     }
 
     void Update()
@@ -37,7 +37,7 @@ public class AudioRecorder : MonoBehaviour
         if (isRecording)
         {
             Microphone.End(null);
-            //whisperAPI.audioClip = ConvertToMono(recordedClip);
+            whisperAPI.audioClip = ConvertToMono(recordedClip);
             //whisperAPI.DoIt();
         }
         else
