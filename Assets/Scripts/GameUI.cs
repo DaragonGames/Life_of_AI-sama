@@ -34,6 +34,10 @@ public class GameUI : MonoBehaviour
 
     public void OnSubmit()
     {
+        if (inputText.text.Length == 0)
+        {
+            return;
+        }
         AIManager.TextRequest(inputText.text);
         npcText.text = "Waiting for Response";
         inputText.text = "";

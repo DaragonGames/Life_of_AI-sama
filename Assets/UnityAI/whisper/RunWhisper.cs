@@ -224,8 +224,5 @@ public class RunWhisper : MonoBehaviour
         encoder.Dispose();
         spectrogram.Dispose();
         argmax.Dispose();
-        audioInput.Dispose();
-        lastTokenTensor.Dispose();
-        tokensTensor.Dispose();
     }
 }

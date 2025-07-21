@@ -729,7 +729,7 @@ GameObject:
   - component: {fileID: 691787938}
   - component: {fileID: 691787937}
   m_Layer: 5
-  m_Name: InputField (TMP)
+  m_Name: InputField Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -888,7 +888,7 @@ GameObject:
   - component: {fileID: 794693899}
   - component: {fileID: 794693898}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text NPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
