@@ -7,10 +7,11 @@ using Newtonsoft.Json;
 
 public class RunWhisper : MonoBehaviour
 {
+    private bool outputWords = false;
+    string outputString = "";
+
     Worker decoder1, decoder2, encoder, spectrogram;
     Worker argmax;
-
-    public AudioClip audioClip;
 
     // This is how many tokens you want. It can be adjusted.
     const int maxTokens = 100;
@@ -21,7 +22,6 @@ public class RunWhisper : MonoBehaviour
     const int ENGLISH = 50259;
     const int TRANSCRIBE = 50359; //for speech-to-text in specified language
     const int NO_TIME_STAMPS = 50363;
-    const int START_TIME = 50364;
 
     int numSamples;
     string[] tokens;
@@ -35,7 +35,6 @@ public class RunWhisper : MonoBehaviour
     Tensor<float> encodedAudio;
 
     bool transcribe = false;
-    string outputString = "";
 
     // Maximum size of audioClip (30s at 16kHz)
     const int maxSamples = 30 * 16000;
@@ -60,11 +59,9 @@ public class RunWhisper : MonoBehaviour
 
         encoder = new Worker(ModelLoader.Load(audioEncoder), BackendType.GPUCompute);
         spectrogram = new Worker(ModelLoader.Load(logMelSpectro), BackendType.GPUCompute);
-
-        DoIt();
     }
 
-    public async void DoIt()
+    public async void Transcribe(AudioClip source)
     {
         outputTokens = new NativeArray<int>(maxTokens, Allocator.Persistent);
 
@@ -73,7 +70,7 @@ public class RunWhisper : MonoBehaviour
         outputTokens[2] = TRANSCRIBE;
         tokenCount = 3;
 
-        LoadAudio();
+        LoadAudio(source);
         EncodeAudio();
         transcribe = true;
 
@@ -88,10 +85,20 @@ public class RunWhisper : MonoBehaviour
         while (true)
         {
             if (!transcribe || tokenCount >= (outputTokens.Length - 1))
-                return;
+                break;
             m_Awaitable = InferenceStep();
             await m_Awaitable;
         }
+        if (!outputWords)
+        {
+            AIManager.TranscriptionResult(outputString);
+        }
+        outputString = "";
+
+        // Prevent Memory Lackage
+        audioInput.Dispose();
+        lastTokenTensor.Dispose();
+        tokensTensor.Dispose();
     }
     Awaitable m_Awaitable;
 
@@ -100,7 +107,7 @@ public class RunWhisper : MonoBehaviour
     Tensor<int> tokensTensor;
     Tensor<float> audioInput;
 
-    void LoadAudio()
+    void LoadAudio(AudioClip audioClip)
     {
         numSamples = audioClip.samples;
         var data = new float[maxSamples];
@@ -157,10 +164,16 @@ public class RunWhisper : MonoBehaviour
         }
         else if (index < tokens.Length)
         {
-            outputString += GetUnicodeText(tokens[index]);
+            string word = GetUnicodeText(tokens[index]);
+            if (outputWords)
+            {
+                AIManager.TranscriptionResult(word);
+            }
+            else
+            {                
+                outputString += word;
+            }
         }
-
-        Debug.Log(outputString);
     }
 
     // Tokenizer

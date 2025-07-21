@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            AIManager.whisperAPI = GameObject.Find("SpeechRecorder").GetComponent<RunWhisper>();
             AIManager.Initialize();
         }
         else

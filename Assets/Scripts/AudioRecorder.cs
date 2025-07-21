@@ -1,19 +1,23 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AudioRecorder : MonoBehaviour
 {
+    public Image image;
+    public Sprite deafultSprite;
+    public Sprite recordingSprite;
+
+
     private AudioClip recordedClip;
     private bool isRecording;
     private float recordingTime;
     private string selectedDevice;
     private const int sampleRate = 16000;
     private const int maxLength = 29;
-    private RunWhisper whisperAPI;
 
     void Start()
     {
         selectedDevice = Microphone.devices[0];
-        whisperAPI = GetComponent<RunWhisper>();
     }
 
     void Update()
@@ -37,12 +41,13 @@ public class AudioRecorder : MonoBehaviour
         if (isRecording)
         {
             Microphone.End(null);
-            whisperAPI.audioClip = ConvertToMono(recordedClip);
-            whisperAPI.DoIt();
+            AIManager.TranscriptionRequest(ConvertToMono(recordedClip));
+            image.sprite = deafultSprite;
         }
         else
         {
             recordedClip = Microphone.Start(selectedDevice, false, maxLength, sampleRate);
+            image.sprite = recordingSprite;
         }
         isRecording = !isRecording;
     }
