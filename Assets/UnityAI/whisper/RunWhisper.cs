@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 public class RunWhisper : MonoBehaviour
 {
-    private bool outputWords = false;
+    private bool outputWords = true;
     string outputString = "";
 
     Worker decoder1, decoder2, encoder, spectrogram;

@@ -8,10 +8,9 @@ public static class ChatGPTConnector
 {
   private static string apiKey;
 
-  public static async void SendRequest(string request)
+  public static async void SendRequest(string[] request)
   {
-    string json = "{\"model\":\"gpt-4o-mini\",\"messages\":[{\"role\":\"user\",\"content\":\"" + request + "\"}]}";
-
+    string json = CreateMessage(request);
     UnityWebRequest req = new UnityWebRequest("https://api.openai.com/v1/chat/completions", "POST");
     byte[] body = Encoding.UTF8.GetBytes(json);
     req.uploadHandler = new UploadHandlerRaw(body);
@@ -57,6 +56,25 @@ public static class ChatGPTConnector
     }
   }
 
+  public static string CreateMessage(string[] contents)
+  {
+    const string jsonStart = "{\"model\":\"gpt-4o-mini\",\"messages\":[";
+    const string jsonEnd = "]}";
+    string[] roles = new string[] {"system", "developer", "user", "assistant"};
+    string message = jsonStart;
+
+    // Supported values are:  'function', 'tool'
+
+    for (int i = 0; i < contents.Length; i++)
+    {
+      message += (i > 0) ? ", " : "";
+      message += "{\"role\":\"" + roles[i] + "\",\"content\":\"" + contents[i] + "\"}";
+    }
+    message += jsonEnd;
+
+    return message;
+  }
+
   public static Dictionary<string, object> ProcessGptOutput(string input)
   {
     input = input.Replace("null", "±");
@@ -98,10 +116,10 @@ public static class ChatGPTConnector
       // Find Value
       if (openings.Length >= StateReadingValue)
       {
-        if (escapeCharacter||c == '\\')
+        if (escapeCharacter || c == '\\')
         {
           value += c;
-          escapeCharacter =!escapeCharacter;
+          escapeCharacter = !escapeCharacter;
           continue;
         }
         if (c == '"' || c == '[' || c == '{' || c == ']' || c == '}')
