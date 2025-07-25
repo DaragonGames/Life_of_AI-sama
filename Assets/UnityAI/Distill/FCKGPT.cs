@@ -1,136 +1,153 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using Unity.InferenceEngine;
 using UnityEngine;
 
-public class RunDistill : MonoBehaviour
+public class FCKGPT : MonoBehaviour
 {
+    // Referenzed Model Files
     public ModelAsset modelAsset;
     public TextAsset vocabAsset;
     public TextAsset mergesAsset;
+    private string outputString = "One day an alien came down from Mars. It saw a chicken";
 
-    const BackendType backend = BackendType.GPUCompute;
-
-    //string outputString = "Once upon a time, there were three bears";
-    string outputString = "One day an alien came down from Mars. It saw a chicken";
-
-    // This is how many tokens you want. It can be adjusted.
-    const int maxTokens = 100;
-
-    //Make this smaller for more randomness
-    const float predictability = 5f;
-
-    //Special tokens
-    const int END_OF_TEXT = 50256;
-
-    //Store the vocabulary
-    string[] tokens;
-
+    // Used on Model Runtime
+    Tensor<float>[] pastKeys = new Tensor<float>[numLayers];
+    Tensor<float>[] pastValues = new Tensor<float>[numLayers];
+    bool runInference;
     Worker engine;
-
+    const int maxTokens = 100;
     int currentToken;
     int[] outputTokens = new int[maxTokens];
 
-    // Used for special character decoding
+    // For Tokkenizing and Decoding
+    const int END_OF_TEXT = 50256;
+    string[] tokens;
     int[] whiteSpaceCharacters = new int[256];
     int[] encodedCharacters = new int[256];
-
-    bool runInference;
-
-    //stop after this many tokens
-    const int stopAfter = 100;
-
-    int totalTokens;
-
     string[] merges;
     Dictionary<string, int> vocab;
+    int totalTokens;
 
+    // Model Constants
     const int numLayers = 6;
     const int batchSize = 1;
     const int numHeads = 12;
     const int headDim = 64;
-    const int seqLen = maxTokens; // Adjust as needed
 
-    Tensor<float>[] pastKeys = new Tensor<float>[numLayers];
-    Tensor<float>[] pastValues = new Tensor<float>[numLayers];
+    //
+    // Runtime Block
+    //
 
     void Start()
     {
+        // 
+        // Prep Work
+        //
         SetupWhiteSpaceShifts();
-
         LoadVocabulary();
+        DecodePrompt(outputString);
 
-        var model1 = ModelLoader.Load(modelAsset);
-        //Create a new model to select the random token:
+        for (int i = 0; i < numLayers; i++)
+        {
+            pastKeys[i] = new Tensor<float>(new TensorShape(batchSize, numHeads, 1, headDim));
+            pastValues[i] = new Tensor<float>(new TensorShape(batchSize, numHeads, 1, headDim));
+        }
 
-        var graph = new FunctionalGraph();
+        //
+        // Create and run the Runtime Model 
+        //
+
+        Model model1 = ModelLoader.Load(modelAsset);
+        FunctionalGraph graph = new FunctionalGraph();
+
+        // Input Block
         List<FunctionalTensor> inputs = new List<FunctionalTensor>
         {
             graph.AddInput<int>(new TensorShape(1, 1), "input_ids")
         };
         for (int i = 0; i < 6; i++)
         {
-            inputs.Add(graph.AddInput<float>(new TensorShape(1, 12, 0, 64), $"past_key_values.{i}.key"));
-            inputs.Add(graph.AddInput<float>(new TensorShape(1, 12, 0, 64), $"past_key_values.{i}.value"));
+            inputs.Add(graph.AddInput<float>(new DynamicTensorShape(1, 12, -1, 64), $"past_key_values.{i}.key"));
+            inputs.Add(graph.AddInput<float>(new DynamicTensorShape(1, 12, -1, 64), $"past_key_values.{i}.value"));
         }
         inputs.Add(graph.AddInput<int>(new TensorShape(1, 1), "position_ids"));
-        inputs.Add(graph.AddInput<int>(new TensorShape(1, 1), "attention_mask"));
+        inputs.Add(graph.AddInput<int>(new DynamicTensorShape(1, -1), "attention_mask"));
 
-        // Forward pass with all inputs
-        var outputs = Functional.Forward(model1, inputs.ToArray());
+        // Outputs Block
+        FunctionalTensor[] outputs = Functional.Forward(model1, inputs.ToArray());
+        foreach (var output in outputs)
+        {
+            graph.AddOutput(output);
+        }
 
-        // Extract logits from the last output (adjust if different)
-        graph.AddOutput(outputs[^1]); 
+        // Compile and run model
+        var runTimeModel = graph.Compile();
+        engine = new Worker(runTimeModel, BackendType.GPUCompute);
+        for (int i = 0; i < currentToken; i++)
+        {
+            RunSingleTokenInference(outputTokens[i]);
+        }
+        StartCoroutine(InferenceLoop());
+    }
 
-int pastKeyValuesStartIndex = outputs.Length - 1 - numLayers * 2; // index of first past_key_value tensor
+    IEnumerator InferenceLoop()
+    {
+        runInference = true;
+        while (runInference)
+        {
+            RunInference();
+            yield return null;
+        }
+    }
 
-for (int i = 0; i < numLayers; i++)
-{
-    graph.AddOutput(outputs[pastKeyValuesStartIndex + i * 2]);     // past_key_values[i].key
-    graph.AddOutput(outputs[pastKeyValuesStartIndex + i * 2 + 1]); // past_key_values[i].value
-}
+    void OnDestroy()
+    {
+        engine?.Dispose();
+    }
 
-        // Compile the full model
-        var model2 = graph.Compile();
+    void RunSingleTokenInference(int token)
+    {
+        var inputIds = new Tensor<int>(new TensorShape(1, 1), new int[] { outputTokens[currentToken] });
+        var attentionMask = new Tensor<int>(new TensorShape(1, 1), new int[] { 1 });
+        var positionIds = new Tensor<int>(new TensorShape(1, 1), new int[] { totalTokens });
+
+        engine.SetInput("input_ids", inputIds);
+        for (int i = 0; i < numLayers; i++)
+        {
+            engine.SetInput("past_key_values." + i + ".key", pastKeys[i]);
+            engine.SetInput("past_key_values." + i + ".value", pastValues[i]);
+        }
+        engine.SetInput("attention_mask", attentionMask);
+        engine.SetInput("position_ids", positionIds);
+
+        engine.Schedule();
+
+        var logits = (engine.PeekOutput() as Tensor<float>).ReadbackAndClone();
+        //int nextToken = SampleFromLogits(logits);
+        totalTokens++;
 
         for (int i = 0; i < numLayers; i++)
         {
-            // Shape: [batch, num_heads, past_seq_len, head_dim]
-            pastKeys[i] = new Tensor<float>(new TensorShape(batchSize, numHeads, 0, headDim));
-            pastValues[i] = new Tensor<float>(new TensorShape(batchSize, numHeads, 0, headDim));
+            int keyIndex = 1 + i * 2;
+            int valueIndex = 1 + i * 2 + 1;
+            pastKeys[i] = (engine.PeekOutput(keyIndex) as Tensor<float>).ReadbackAndClone();
+            pastValues[i] = (engine.PeekOutput(valueIndex) as Tensor<float>).ReadbackAndClone();
         }
 
-        engine = new Worker(model2, backend);
+        
 
-        DecodePrompt(outputString);
-
-        runInference = true;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (runInference)
-        {
-            RunInference();
-        }
     }
 
     void RunInference()
     {
-        // 1. Current token input
-        var inputIds = new Tensor<int>(new TensorShape(1, 1), new int[] { outputTokens[currentToken] });
-
-        // 2. Attention mask: all 1s so far
+        var inputIds = new Tensor<int>(new TensorShape(1, 1),  new int[] { outputTokens[currentToken] });
         var attentionMask = new Tensor<int>(new TensorShape(1, 1), new int[] { 1 });
-        for (int i = 0; i <= currentToken; i++) attentionMask[0, i] = 1;
+        var positionIds = new Tensor<int>(new TensorShape(1, 1), new int[] { totalTokens });
 
-        // 3. Position ids (0-based)
-        var positionIds = new Tensor<int>(new TensorShape(1, 1), new int[] { currentToken });
-
-        // 4. Past key/values
+        // Past key/values
         engine.SetInput("input_ids", inputIds);
         for (int i = 0; i < numLayers; i++)
         {
@@ -142,11 +159,21 @@ for (int i = 0; i < numLayers; i++)
 
         engine.Schedule();
 
-        // 5. Get logits → sample next token
-        using var logits = (engine.PeekOutput() as Tensor<float>).ReadbackAndClone();
+        // Get logits → sample next token
+        var logits = (engine.PeekOutput() as Tensor<float>).ReadbackAndClone();
         int nextToken = SampleFromLogits(logits);
+        totalTokens++;
 
-        // Store new token
+        // Update past keys/values (peek from outputs, store for next step)
+        for (int i = 0; i < numLayers; i++)
+        {
+            int keyIndex = 1 + i * 2;
+            int valueIndex = 1 + i * 2 + 1;
+            pastKeys[i] = (engine.PeekOutput(keyIndex) as Tensor<float>).ReadbackAndClone();
+            pastValues[i] = (engine.PeekOutput(valueIndex) as Tensor<float>).ReadbackAndClone();
+        }
+
+        // Store new token TODO TEST & CLEAN
         if (currentToken >= maxTokens - 1)
         {
             for (int i = 0; i < maxTokens - 1; i++) outputTokens[i] = outputTokens[i + 1];
@@ -154,17 +181,12 @@ for (int i = 0; i < numLayers; i++)
         }
 
         outputTokens[++currentToken] = nextToken;
-        totalTokens++;
+        
 
-        // 6. Update past keys/values (peek from outputs, store for next step)
-        for (int i = 0; i < numLayers; i++)
-        {
-            pastKeys[i] = engine.PeekOutput($"past_key_values.{i}.key") as Tensor<float>;
-            pastValues[i] = engine.PeekOutput($"past_key_values.{i}.value") as Tensor<float>;
-        }
 
-        // 7. Stop condition
-        if (nextToken == END_OF_TEXT || totalTokens >= stopAfter)
+
+        // Stop condition
+        if (nextToken == END_OF_TEXT || totalTokens >= maxTokens)
         {
             runInference = false;
         }
@@ -196,11 +218,15 @@ for (int i = 0; i < numLayers; i++)
         return maxIndex;
     }
 
+    //
+    // Decoding and Token Block
+    //
+
     void DecodePrompt(string text)
     {
         var inputTokens = GetTokens(text);
 
-        for (int i = 0; i < inputTokens.Count; i++)
+        for (int i = 0; i < inputTokens.Count && i < maxTokens; i++)
         {
             outputTokens[i] = inputTokens[i];
         }
@@ -220,12 +246,12 @@ for (int i = 0; i < numLayers; i++)
         merges = mergesAsset.text.Split("\r\n");
     }
 
-    // Translates encoded special characters to Unicode
     string GetUnicodeText(string text)
     {
         var bytes = Encoding.GetEncoding("ISO-8859-1").GetBytes(ShiftCharacterDown(text));
         return Encoding.UTF8.GetString(bytes);
     }
+
     string GetASCIIText(string newText)
     {
         var bytes = Encoding.UTF8.GetBytes(newText);
@@ -316,8 +342,4 @@ for (int i = 0; i < numLayers; i++)
         }
     }
 
-    void OnDestroy()
-    {
-        engine?.Dispose();
-    }
 }
