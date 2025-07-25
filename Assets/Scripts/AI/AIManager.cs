@@ -1,26 +1,24 @@
 using System;
 using UnityEngine;
 
-public static class AIManager
+public class AIManager : MonoBehaviour
 {
-    private static PromptGenerator promptGenerator;
     public static RunWhisper whisperAPI;
 
-    public static void Initialize()
+    void Start()
     {
         ChatGPTConnector.GetApiKey();
         OpenGPTConnector.SetPath();
-        promptGenerator = new PromptGenerator();
+        whisperAPI = GameObject.Find("SpeechRecorder")?.GetComponent<RunWhisper>();
     }
 
     // Is triggered from Game Objects
-    public static void TextRequest(string userInput)
+    public static void TextRequest(string[] prompt, bool internalRequest)
     {
         // Sends request to Connector (GPT or LLama)
         // Currently hardcoded for GPT
-        string[] prompt = promptGenerator.defaultPrompt(userInput);
-        ChatGPTConnector.SendRequest(prompt);
-        //OpenGPTConnector.SendRequest(prompt);
+        ChatGPTConnector.SendRequest(prompt, internalRequest);
+        //OpenGPTConnector.SendRequest(prompt); // uses String not string[]
     }
 
     public static void TranscriptionRequest(AudioClip source)
@@ -29,19 +27,26 @@ public static class AIManager
     }
 
     // Is triggered from AI Clonnectors
-    public static void TextResponse(string answer)
+    public static void TextResponse(string answer, bool internalResponse)
     {
-        AIResponse?.Invoke(answer);
+        if (internalResponse)
+        {
+            AIInternalResponse?.Invoke(answer);
+        }
+        else
+        {
+            AIDialogueResponse?.Invoke(answer);
+        }        
     }
 
     public static void TranscriptionResult(string text)
     {
-        Debug.Log(text);
         AITranscription?.Invoke(text);
     }
 
     // Is Invoked for other Game Objects to Listen to
-    public static event Action<string> AIResponse;
+    public static event Action<string> AIDialogueResponse;
+    public static event Action<string> AIInternalResponse;
     public static event Action<string> AITranscription;
 
 }

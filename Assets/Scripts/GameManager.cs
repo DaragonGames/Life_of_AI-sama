@@ -3,16 +3,17 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    private DialogueManager dialogueManager;
+    private AIManager aIManager;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (instance == null)
         {
             instance = this;
+            dialogueManager = GetComponent<DialogueManager>();
+            aIManager = GetComponent<AIManager>(); 
             DontDestroyOnLoad(gameObject);
-            AIManager.whisperAPI = GameObject.Find("SpeechRecorder").GetComponent<RunWhisper>();
-            AIManager.Initialize();
         }
         else
         {
@@ -20,4 +21,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public static void UserInput(string input)
+    { 
+        instance.dialogueManager.HandleUserInput(input);
+    }
+    
 }

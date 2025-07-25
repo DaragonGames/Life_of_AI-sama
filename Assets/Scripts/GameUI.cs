@@ -8,13 +8,13 @@ public class GameUI : MonoBehaviour
 
     void Start()
     {
-        AIManager.AIResponse += UpdateNPCText;
+        AIManager.AIDialogueResponse += UpdateNPCText;
         AIManager.AITranscription += UpdatePlayerText;
     }
 
     void OnDestroy()
     {
-        AIManager.AIResponse -= UpdateNPCText;
+        AIManager.AIDialogueResponse -= UpdateNPCText;
         AIManager.AITranscription -= UpdatePlayerText;
     }
 
@@ -38,7 +38,7 @@ public class GameUI : MonoBehaviour
         {
             return;
         }
-        AIManager.TextRequest(inputText.text);
+        GameManager.UserInput(inputText.text);
         npcText.text = "Waiting for Response";
         inputText.text = "";
     }

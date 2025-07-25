@@ -8,7 +8,7 @@ public static class ChatGPTConnector
 {
   private static string apiKey;
 
-  public static async void SendRequest(string[] request)
+  public static async void SendRequest(string[] request, bool internalRequest)
   {
     string json = CreateMessage(request);
     UnityWebRequest req = new UnityWebRequest("https://api.openai.com/v1/chat/completions", "POST");
@@ -20,7 +20,7 @@ public static class ChatGPTConnector
 
     await req.SendWebRequest();    
     string response = ExtractMessage(req.downloadHandler.text);
-    AIManager.TextResponse(response);
+    AIManager.TextResponse(response, internalRequest);
   }
 
   public static void GetApiKey()

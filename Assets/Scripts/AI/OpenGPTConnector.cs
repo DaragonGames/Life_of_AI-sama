@@ -6,7 +6,7 @@ public static class OpenGPTConnector
 {
     private static string path = "";
 
-    public static void SendRequest(string request)
+    public static void SendRequest(string request, bool internalRequest)
     {
         string arguments = request.Replace(' ', '_');
 
@@ -21,7 +21,7 @@ public static class OpenGPTConnector
         {
             string output = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
-            AIManager.TextResponse(output);
+            AIManager.TextResponse(output, internalRequest);
         }
     }
 
