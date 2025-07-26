@@ -1,12 +1,18 @@
+using UnityEngine;
+
 public class PromptGenerator
 {
-    private string systemMessage = "Answer in a single sentence if possible. You are a character in a visual novel videogame, talking to the player character.";
     private ShortTermMemory memory;
+    private GeneralData generalData;
 
     public PromptGenerator()
     {
         memory = new ShortTermMemory();
         AIManager.AIDialogueResponse += memory.AddToConversation;
+
+        string json = Resources.Load<TextAsset>("GeneralData").text;
+        GeneralDataSource sourceData = JsonUtility.FromJson<GeneralDataSource>(json);
+        generalData = new GeneralData(sourceData);
     }
 
     public void OnDestroy()
@@ -14,18 +20,22 @@ public class PromptGenerator
         AIManager.AIDialogueResponse -= memory.AddToConversation;
     }
 
-    public string[] defaultChatPrompt(string userInput, CharacterData data, string setting)
+    public string[] defaultChatPrompt(string userInput, CharacterData data)
     {
-        string developerMessage = "Setting: " + setting;
-        developerMessage += data.relationship[0];
-        developerMessage += "Your Role:"; 
+        memory.AddToConversation(userInput);
+
+        // Add Seting Text to Developer Prompt
+        string areaText = generalData.areaDescriptions[GameManager.instance.currentArea];
+        string dayTimeText = generalData.dayTimesDescriptions[GameManager.instance.currentDayTime];
+        string developerMessage = "Setting: " + areaText + ", " + dayTimeText; 
+
+        // Add Character Infos to Developer Prompt
+        developerMessage += data.relationship[0] + " Your Role:";
         foreach (string part in data.characterDescription)
         {
             developerMessage += " " + part;
         }
-        
-        memory.AddToConversation(userInput);
 
-        return new string[] { systemMessage, developerMessage, userInput, memory.GetSummary() };
+        return new string[] { generalData.chatSystemPrompt, developerMessage, userInput, memory.GetSummary() };
     }
 }

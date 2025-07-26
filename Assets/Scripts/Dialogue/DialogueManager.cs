@@ -4,7 +4,6 @@ public class DialogueManager : MonoBehaviour
 {
     private CharacterData characterData;
     private PromptGenerator promptGenerator;
-    private string debugSetting = "Miraku High School Classroom, morning before first class. ";
 
     void Start()
     {
@@ -20,7 +19,7 @@ public class DialogueManager : MonoBehaviour
 
     public void HandleUserInput(string input)
     {
-        string[] prompt = promptGenerator.defaultChatPrompt(input, characterData, debugSetting);
+        string[] prompt = promptGenerator.defaultChatPrompt(input, characterData);
         AIManager.TextRequest(prompt, false);
         return;
     }
