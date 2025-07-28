@@ -10,12 +10,14 @@ public class GameUI : MonoBehaviour
     {
         AIManager.AIDialogueResponse += UpdateNPCText;
         AIManager.AITranscription += UpdatePlayerText;
+        DialogueManager.InternalDialogueResponse += UpdateNPCText;
     }
 
     void OnDestroy()
     {
         AIManager.AIDialogueResponse -= UpdateNPCText;
         AIManager.AITranscription -= UpdatePlayerText;
+        DialogueManager.InternalDialogueResponse -= UpdateNPCText;
     }
 
     public void UpdateNPCText(string text)

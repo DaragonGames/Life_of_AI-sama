@@ -27,7 +27,7 @@ public class PromptGenerator
         // Add Seting Text to Developer Prompt
         string areaText = generalData.areaDescriptions[GameManager.instance.currentArea];
         string dayTimeText = generalData.dayTimesDescriptions[GameManager.instance.currentDayTime];
-        string developerMessage = "Setting: " + areaText + ", " + dayTimeText; 
+        string developerMessage = "Setting: " + areaText + ", " + dayTimeText;
 
         // Add Character Infos to Developer Prompt
         developerMessage += data.relationship[0] + " Your Role:";
@@ -37,5 +37,16 @@ public class PromptGenerator
         }
 
         return new string[] { generalData.chatSystemPrompt, developerMessage, userInput, memory.GetSummary() };
+    }
+
+    public string[] checkingPrompt(string userInput, string[] options )
+    {
+        string developerMessage = "Options: ";
+        for (int i = 0; i < options.Length; i++)
+        {
+            developerMessage += i + ":" + options[i];
+        }       
+
+        return new string[] { generalData.checkingSystemPrompt, developerMessage, userInput };
     }
 }

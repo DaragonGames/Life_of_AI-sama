@@ -8,5 +8,6 @@
         "morning before first class",
         "lunch"
     ],
-    "chatSystemPrompt": "Answer in a single sentence if possible. You are a character in a visual novel videogame, talking to the player character."
+    "chatSystemPrompt": "Answer in a single sentence if possible. You are a character in a visual novel videogame, talking to the player character.",
+    "checkingSystemPrompt": "Compare"
 }
