@@ -1,15 +1,17 @@
 using System;
 using System.Collections.Generic;
 
+[Serializable]
 public struct CharacterData
 {
     public string name;
     public string[] relationship;
     public string[] characterDescription;
     public List<DialoguePart> dialougePartsSource;
-    public Dictionary<string,DialoguePart> dialougeParts;
+    public Dictionary<string, DialoguePart> dialougeParts;
 }
 
+[Serializable]
 public struct GeneralData
 {
     public string checkingSystemPrompt;
@@ -50,12 +52,25 @@ public class DialoguePart
     public string id;
     public string npcResponse;
     public List<ExpectedAnswer> allOptions;
+
+    public DialoguePart(string id, string npcResponse, List<ExpectedAnswer> allOptions)
+    {
+        this.id = id;
+        this.npcResponse = npcResponse;
+        this.allOptions = allOptions;
+    }
 }
 
+[Serializable]
 public struct ExpectedAnswer
 {
     public string possibleAnswer;
     public string leadsToID;
+    public ExpectedAnswer(string possibleAnswer, string leadsToID)
+    {
+        this.possibleAnswer = possibleAnswer;
+        this.leadsToID = leadsToID;
+    }
 }
 
 public enum Areas { classroom, cafeteria, gym, libary, clubroom, hallway, rooftop, courtyard }

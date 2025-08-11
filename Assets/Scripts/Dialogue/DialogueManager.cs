@@ -11,11 +11,11 @@ public class DialogueManager : MonoBehaviour
     private bool smallTalkMode = true;
     private string unprocessedInput = "";
     List<ExpectedAnswer> options;
-    string currentDialoguePartID = ""; 
+    string currentDialoguePartID = "";
 
     void Start()
     {
-        LoadCharacterData("Miko");
+        LoadCharacterData("Miko2");
         promptGenerator = new PromptGenerator();
         AIManager.AIInternalResponse += ProcessResponseCheckResult;
     }
@@ -29,10 +29,23 @@ public class DialogueManager : MonoBehaviour
     {
         string json = Resources.Load<TextAsset>(characterName).text;
         characterData = JsonUtility.FromJson<CharacterData>(json);
+        characterData.dialougeParts = new Dictionary<string, DialoguePart>();
         foreach (DialoguePart part in characterData.dialougePartsSource)
         {
             characterData.dialougeParts.Add(part.id, part);
         }
+        //DebugSave();
+    }
+
+    private void DebugSave()
+    {
+        characterData.dialougePartsSource.Add(
+            new DialoguePart("test", "hello test",
+            new List<ExpectedAnswer>() { new ExpectedAnswer("Hello","Thanks") } )
+        );
+        string json = JsonUtility.ToJson(characterData, true);
+        string path = System.IO.Path.Combine(Application.dataPath, "Save.json");
+        System.IO.File.WriteAllText(path, json);
     }
 
     public void HandleUserInput(string input)
@@ -49,9 +62,10 @@ public class DialogueManager : MonoBehaviour
     private void CheckForExpectedResponse(string input)
     {
         List<string> allPossibleAnswers = new List<string>();
+        options = new List<ExpectedAnswer>();
 
         // Add default answers to List
-        DialoguePart temp = characterData.dialougeParts[default];
+        DialoguePart temp = characterData.dialougeParts["default"];
         foreach (ExpectedAnswer part in temp.allOptions)
         {
             options.Add(part);
@@ -61,7 +75,7 @@ public class DialogueManager : MonoBehaviour
         // Add possible answers from Last Message to List
         if (currentDialoguePartID != "")
         {
-            temp = characterData.dialougeParts[default];
+            temp = characterData.dialougeParts[currentDialoguePartID];
             foreach (ExpectedAnswer part in temp.allOptions)
             {
                 options.Add(part);
@@ -88,10 +102,7 @@ public class DialogueManager : MonoBehaviour
         if (id > -1)
         {
             // Give pre written Answer
-            string next = options[id].leadsToID;
-            string npcText = characterData.dialougeParts[next].npcResponse;
-            InternalDialogueResponse?.Invoke(npcText);
-            SetState(next);             
+            GeneratePrewrittenResponse(id);     
         }
         else
         {
@@ -119,6 +130,14 @@ public class DialogueManager : MonoBehaviour
     {
         string[] prompt = promptGenerator.defaultChatPrompt(input, characterData);
         AIManager.TextRequest(prompt, false);
+    }
+
+    private void GeneratePrewrittenResponse(int id)
+    {
+        string next = options[id].leadsToID;
+        string npcText = characterData.dialougeParts[next].npcResponse;
+        InternalDialogueResponse?.Invoke(npcText);
+        SetState(next);   
     }
 
     public static event Action<string> InternalDialogueResponse;

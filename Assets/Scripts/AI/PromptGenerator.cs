@@ -9,6 +9,7 @@ public class PromptGenerator
     {
         memory = new ShortTermMemory();
         AIManager.AIDialogueResponse += memory.AddToConversation;
+        DialogueManager.InternalDialogueResponse += memory.AddToConversation;
 
         string json = Resources.Load<TextAsset>("GeneralData").text;
         GeneralDataSource sourceData = JsonUtility.FromJson<GeneralDataSource>(json);
@@ -18,6 +19,7 @@ public class PromptGenerator
     public void OnDestroy()
     {
         AIManager.AIDialogueResponse -= memory.AddToConversation;
+        DialogueManager.InternalDialogueResponse -= memory.AddToConversation;
     }
 
     public string[] defaultChatPrompt(string userInput, CharacterData data)
