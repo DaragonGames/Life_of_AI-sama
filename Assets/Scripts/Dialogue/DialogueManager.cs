@@ -29,8 +29,8 @@ public class DialogueManager : MonoBehaviour
     {
         string json = Resources.Load<TextAsset>(characterName).text;
         characterData = JsonUtility.FromJson<CharacterData>(json);
-        characterData.dialougeParts = new Dictionary<string, DialoguePart>();
-        foreach (DialoguePart part in characterData.dialougePartsSource)
+        characterData.dialougeParts = new Dictionary<string, DialogueNode>();
+        foreach (DialogueNode part in characterData.dialougePartsSource)
         {
             characterData.dialougeParts.Add(part.id, part);
         }
@@ -40,8 +40,8 @@ public class DialogueManager : MonoBehaviour
     private void DebugSave()
     {
         characterData.dialougePartsSource.Add(
-            new DialoguePart("test", "hello test",
-            new List<ExpectedAnswer>() { new ExpectedAnswer("Hello","Thanks") } )
+            new DialogueNode("test", 
+            new List<ExpectedAnswer>() { new ExpectedAnswer("Hello","Thanks", "YO") } )
         );
         string json = JsonUtility.ToJson(characterData, true);
         string path = System.IO.Path.Combine(Application.dataPath, "Save.json");
@@ -65,7 +65,7 @@ public class DialogueManager : MonoBehaviour
         options = new List<ExpectedAnswer>();
 
         // Add default answers to List
-        DialoguePart temp = characterData.dialougeParts["default"];
+        DialogueNode temp = characterData.dialougeParts["default"];
         foreach (ExpectedAnswer part in temp.allOptions)
         {
             options.Add(part);
@@ -135,7 +135,7 @@ public class DialogueManager : MonoBehaviour
     private void GeneratePrewrittenResponse(int id)
     {
         string next = options[id].leadsToID;
-        string npcText = characterData.dialougeParts[next].npcResponse;
+        string npcText = options[id].npcResponse;
         InternalDialogueResponse?.Invoke(npcText);
         SetState(next);   
     }

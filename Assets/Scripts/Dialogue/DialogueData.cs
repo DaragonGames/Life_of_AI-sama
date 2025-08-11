@@ -7,8 +7,8 @@ public struct CharacterData
     public string name;
     public string[] relationship;
     public string[] characterDescription;
-    public List<DialoguePart> dialougePartsSource;
-    public Dictionary<string, DialoguePart> dialougeParts;
+    public List<DialogueNode> dialougePartsSource;
+    public Dictionary<string, DialogueNode> dialougeParts;
 }
 
 [Serializable]
@@ -47,16 +47,14 @@ public struct GeneralDataSource
 }
 
 [Serializable]
-public class DialoguePart
+public class DialogueNode
 {
     public string id;
-    public string npcResponse;
     public List<ExpectedAnswer> allOptions;
 
-    public DialoguePart(string id, string npcResponse, List<ExpectedAnswer> allOptions)
+    public DialogueNode(string id, List<ExpectedAnswer> allOptions)
     {
         this.id = id;
-        this.npcResponse = npcResponse;
         this.allOptions = allOptions;
     }
 }
@@ -66,10 +64,12 @@ public struct ExpectedAnswer
 {
     public string possibleAnswer;
     public string leadsToID;
-    public ExpectedAnswer(string possibleAnswer, string leadsToID)
+    public string npcResponse;
+    public ExpectedAnswer(string possibleAnswer, string leadsToID, string npcResponse)
     {
         this.possibleAnswer = possibleAnswer;
         this.leadsToID = leadsToID;
+        this.npcResponse = npcResponse;
     }
 }
 
