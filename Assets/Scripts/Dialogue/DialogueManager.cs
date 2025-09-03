@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,18 +33,6 @@ public class DialogueManager : MonoBehaviour
         {
             characterData.dialougeParts.Add(part.id, part);
         }
-        //DebugSave();
-    }
-
-    private void DebugSave()
-    {
-        characterData.dialougePartsSource.Add(
-            new DialogueNode("test", 
-            new List<ExpectedAnswer>() { new ExpectedAnswer("Hello","Thanks", "YO") } )
-        );
-        string json = JsonUtility.ToJson(characterData, true);
-        string path = System.IO.Path.Combine(Application.dataPath, "Save.json");
-        System.IO.File.WriteAllText(path, json);
     }
 
     public void HandleUserInput(string input)
@@ -66,20 +53,31 @@ public class DialogueManager : MonoBehaviour
 
         // Add default answers to List
         DialogueNode temp = characterData.dialougeParts["default"];
-        foreach (ExpectedAnswer part in temp.allOptions)
+        foreach (ExpectedAnswer node in temp.allOptions)
         {
-            options.Add(part);
-            allPossibleAnswers.Add(part.possibleAnswer);
+            /* Not sure about this part yet
+            if (node.leadsToID == currentDialoguePartID)
+            {
+                continue;
+            }*/
+            options.Add(node);
+            foreach (string answer in node.possibleAnswer)
+            {
+                allPossibleAnswers.Add(answer);
+            }            
         }
 
         // Add possible answers from Last Message to List
         if (currentDialoguePartID != "")
         {
             temp = characterData.dialougeParts[currentDialoguePartID];
-            foreach (ExpectedAnswer part in temp.allOptions)
+            foreach (ExpectedAnswer node in temp.allOptions)
             {
-                options.Add(part);
-                allPossibleAnswers.Add(part.possibleAnswer);
+                options.Add(node);
+                foreach (string answer in node.possibleAnswer)
+                {
+                    allPossibleAnswers.Add(answer);
+                }  
             }
         }
 
@@ -134,13 +132,26 @@ public class DialogueManager : MonoBehaviour
 
     private void GeneratePrewrittenResponse(int id)
     {
-        string next = options[id].leadsToID;
-        string npcText = options[id].npcResponse;
+        // Find the selected option
+        int count = 0;
+        ExpectedAnswer selected = options[0];
+        foreach (ExpectedAnswer option in options)
+        {
+            count+= option.possibleAnswer.Length;
+            if (id < count)
+            {
+                selected = option;
+                break;
+            }
+        }
+        // Process the selected Answer
+        string next = selected.leadsToID;
+        string npcText = selected.npcResponse[Random.Range(0,selected.npcResponse.Length)];
         InternalDialogueResponse?.Invoke(npcText);
         SetState(next);   
     }
 
-    public static event Action<string> InternalDialogueResponse;
+    public static event System.Action<string> InternalDialogueResponse;
 
 
 

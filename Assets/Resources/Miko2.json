@@ -15,9 +15,9 @@
             "id": "default",
             "allOptions": [
                 {
-                    "possibleAnswer": "Asking about School Clubs",
+                    "possibleAnswer": ["Asking about School Clubs"],
                     "leadsToID": "clubs_all",
-                    "npcResponse": "Oh yeah there are many cool clubs, where do I even start?"
+                    "npcResponse": ["Oh yeah there are many cool clubs, where do I even start?", "Oh I know a few."]
                 }
             ]
         },
@@ -25,18 +25,13 @@
             "id": "clubs_all",
             "allOptions": [
                 {
-                    "possibleAnswer": "Asking about which club they are in",
+                    "possibleAnswer": ["Asking about which club they are in", "Asking about their favorite club"],
                     "leadsToID": "clubs_all",
-                    "npcResponse": "I'm in the music club, since I do like singing and dancing."
+                    "npcResponse": ["I'm in the music club, since I do like singing and dancing."]
                 },
                 {
-                    "possibleAnswer": "Asking about their favorite club",
-                    "leadsToID": "clubs_all",
-                    "npcResponse": "I'm in the music club, since I do like singing and dancing."
-                },
-                {
-                    "possibleAnswer": "Asking to list all clubs",
-                    "npcResponse": "Oh I just know a few, like the arts, music, tech club.",
+                    "possibleAnswer": ["Asking to list all clubs"],
+                    "npcResponse": ["Oh I just know a few, like the arts, music, tech club."],
                     "leadsToID": "clubs_all"
                 }
             ]

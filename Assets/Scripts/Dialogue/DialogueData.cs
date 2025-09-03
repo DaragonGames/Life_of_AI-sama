@@ -62,10 +62,10 @@ public class DialogueNode
 [Serializable]
 public struct ExpectedAnswer
 {
-    public string possibleAnswer;
+    public string[] possibleAnswer;
     public string leadsToID;
-    public string npcResponse;
-    public ExpectedAnswer(string possibleAnswer, string leadsToID, string npcResponse)
+    public string[] npcResponse;
+    public ExpectedAnswer(string[] possibleAnswer, string leadsToID, string[] npcResponse)
     {
         this.possibleAnswer = possibleAnswer;
         this.leadsToID = leadsToID;
