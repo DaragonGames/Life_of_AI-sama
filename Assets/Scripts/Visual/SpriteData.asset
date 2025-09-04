@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6706a77c4c5ea1542b2b760f4a139778, type: 3}
+  m_Name: SpriteData
+  m_EditorClassIdentifier: 
+  miko: {fileID: 21300000, guid: 9f589a85dfd29ba41af7d8aa7e2ce186, type: 3}
+  eve: {fileID: 21300000, guid: ab37b0908018a3b4583572a23b7717e1, type: 3}
+  cari: {fileID: 21300000, guid: 25531f3d0bb57924ea80a2b8312ce76d, type: 3}
+  lena: {fileID: 21300000, guid: d39ac77621253364cb46a8b799051d08, type: 3}
+  lia: {fileID: 21300000, guid: 4cd549f353d15794ea4150c811a58d83, type: 3}
+  classroom:
+  - {fileID: -3862360864648918833, guid: 167e02816c8cbdc40bf7cb4731777b1c, type: 3}
+  - {fileID: -9022513755128254619, guid: efc0de8c43e308e4d994326a3bc6b121, type: 3}
+  - {fileID: 6060909313731443788, guid: f01cd7ff589ea274e95f4ea60d97dc97, type: 3}
+  hallway:
+  - {fileID: 1848514264250383687, guid: f822605435bf3334494c3b2a95a6694f, type: 3}
+  - {fileID: -5710405592572278253, guid: 53cb909fbc463b54c91659d83f8159ea, type: 3}
+  - {fileID: 1254886732382451079, guid: 2cd63430de27d0e4683088517b8540bd, type: 3}
+  roof:
+  - {fileID: -4081519454408948980, guid: cf695db59b3e25f44ba8e9428be57b01, type: 3}
+  - {fileID: -4081519454408948980, guid: cf695db59b3e25f44ba8e9428be57b01, type: 3}
+  - {fileID: -4081519454408948980, guid: cf695db59b3e25f44ba8e9428be57b01, type: 3}
+  cooffeeShop:
+  - {fileID: -4994451325225727279, guid: 66c2f341edc9ab341a741189f655d2cb, type: 3}
+  - {fileID: -4994451325225727279, guid: 66c2f341edc9ab341a741189f655d2cb, type: 3}
+  - {fileID: -4994451325225727279, guid: 66c2f341edc9ab341a741189f655d2cb, type: 3}
+  musicRoom:
+  - {fileID: -180869503574774238, guid: 731819b731f96b943aeb0082f28d15a2, type: 3}
+  - {fileID: -180869503574774238, guid: 731819b731f96b943aeb0082f28d15a2, type: 3}
+  - {fileID: -180869503574774238, guid: 731819b731f96b943aeb0082f28d15a2, type: 3}
+  clubRoom:
+  - {fileID: -7181626490009465289, guid: 77d5999d096076d4c9cfd97219bf71e6, type: 3}
+  - {fileID: -7181626490009465289, guid: 77d5999d096076d4c9cfd97219bf71e6, type: 3}
+  - {fileID: -1139512595500648594, guid: 94a451762628c1a47893693e22cf48ff, type: 3}

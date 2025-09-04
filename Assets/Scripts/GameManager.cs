@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,20 +10,28 @@ public class GameManager : MonoBehaviour
 
     public Areas currentArea = Areas.classroom;
     public DayTimes currentDayTime = DayTimes.morning;
+    public Action<string> InitiatingConversation;
 
-    void Start()
+    void Awake()
     {
         if (instance == null)
         {
             instance = this;
             dialogueManager = GetComponent<DialogueManager>();
-            aIManager = GetComponent<AIManager>(); 
+            aIManager = GetComponent<AIManager>();
             DontDestroyOnLoad(gameObject);
+            
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    IEnumerator Start()
+    {
+        yield return new WaitForSeconds(0.1f);
+        InitiatingConversation?.Invoke("miko");
     }
 
     public static void UserInput(string input)

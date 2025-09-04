@@ -14,13 +14,14 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
-        LoadCharacterData("Eve");
+        GameManager.instance.InitiatingConversation += LoadCharacterData;
         promptGenerator = new PromptGenerator();
         AIManager.AIInternalResponse += ProcessResponseCheckResult;
     }
 
     void OnDestroy()
     {
+        GameManager.instance.InitiatingConversation -= LoadCharacterData;
         AIManager.AIInternalResponse -= ProcessResponseCheckResult;
     }
 
