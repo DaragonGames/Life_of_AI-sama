@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b59a04ef4be7b754eaa7425acd15da07
+guid: 2f3760163d1577e4e867a1ab62af8f6d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6813185467816483668
-    second: reina_smile_0
+      213: -6695950386315148514
+    second: BG_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,14 +46,14 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 0
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: reina_smile_0
+      name: BG_0
       rect:
         serializedVersion: 2
-        x: 588
+        x: 0
         y: 0
-        width: 1691
-        height: 2852
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ca4e1f13ae3b271a0800000000000000
-      internalID: -6813185467816483668
+      spriteID: e13cb0ea9943313a0800000000000000
+      internalID: -6695950386315148514
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      reina_smile_0: -6813185467816483668
+      BG_0: -6695950386315148514
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
