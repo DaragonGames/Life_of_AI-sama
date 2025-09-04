@@ -73,6 +73,6 @@ public struct ExpectedAnswer
     }
 }
 
-public enum Areas { classroom, cafeteria, gym, libary, clubroom, hallway, rooftop, courtyard }
-public enum DayTimes { morning, lunchbreak, evening, weekend }
+public enum Areas { classroom, cafeteria, clubroom, hallway, rooftop, musicRoom }
+public enum DayTimes { morning, afternoon, evening }
 public enum Days {monday, tuesday, wednesday, thursday, firday, saturday, sunday}

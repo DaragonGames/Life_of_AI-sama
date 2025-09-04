@@ -14,12 +14,12 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
-        LoadCharacterData("Miko2");
+        LoadCharacterData("Eve");
         promptGenerator = new PromptGenerator();
         AIManager.AIInternalResponse += ProcessResponseCheckResult;
     }
 
-    void Oestroy()
+    void OnDestroy()
     {
         AIManager.AIInternalResponse -= ProcessResponseCheckResult;
     }

@@ -43,12 +43,22 @@ public class PromptGenerator
 
     public string[] checkingPrompt(string userInput, string[] options )
     {
-        string developerMessage = "Options: ";
+        string developerMessage = "";
+        string lastMessage = memory.LastMessage();
+        if (lastMessage != null)
+        {
+            developerMessage += "Here is your last message for context: " + memory.LastMessage();
+        }
+        
+
+        developerMessage += "Options: ";
         for (int i = 0; i < options.Length; i++)
         {
             developerMessage += i + ":" + options[i];
         }       
 
-        return new string[] { generalData.checkingSystemPrompt, developerMessage, userInput };
+        Debug.Log(generalData.checkingSystemPrompt + "  " +  developerMessage + "  " + userInput );
+
+        return new string[] { generalData.checkingSystemPrompt, developerMessage, "User Input: " + userInput };
     }
 }

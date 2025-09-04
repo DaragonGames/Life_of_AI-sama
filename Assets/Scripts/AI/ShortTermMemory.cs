@@ -21,10 +21,19 @@ public class ShortTermMemory
         for (int i = 0; i < messages.Count; i++)
         {
             summary += (i % 2 == 0) ? " User said: " : " You said: ";
-            summary += messages[i]; 
+            summary += messages[i];
         }
 
         return summary;
+    }
+
+    public string LastMessage()
+    {
+        if (messages.Count == 0)
+        {
+            return null;
+        }
+        return messages[messages.Count - 1];
     }
 
 }
