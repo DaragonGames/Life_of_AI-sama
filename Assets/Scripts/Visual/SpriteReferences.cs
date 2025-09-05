@@ -35,7 +35,7 @@ public class SpriteReferences : ScriptableObject
         }
     }
 
-    public Sprite GetCharacter(String name)
+    public Sprite GetCharacter(string name)
     {
         switch (name)
         {

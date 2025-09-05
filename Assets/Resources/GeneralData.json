@@ -1,12 +1,16 @@
 {
     "areas":[
-        "Miraku High School Classroom",
-        "lunch",
-        "gym"
+        "Classroom",
+        "Coffee shop",
+        "Clubroom",
+        "Hallway",
+        "Rooftop",
+        "Music room"
     ],
     "dayTimes":[
-        "morning before first class",
-        "lunch"
+        "Morning",
+        "Afternoon",
+        "Evening"
     ],
     "chatSystemPrompt": "Answer in a single sentence if possible. You are a character in a visual novel videogame, talking to the player character.",
     "checkingSystemPrompt": "Compare the given user input to the expected answers or general topics, select the most fitting. Return only its asociated number and nothing else. Return -1 if no option fits."

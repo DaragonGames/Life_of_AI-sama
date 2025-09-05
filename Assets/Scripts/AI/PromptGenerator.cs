@@ -11,9 +11,7 @@ public class PromptGenerator
         AIManager.AIDialogueResponse += memory.AddToConversation;
         DialogueManager.InternalDialogueResponse += memory.AddToConversation;
 
-        string json = Resources.Load<TextAsset>("GeneralData").text;
-        GeneralDataSource sourceData = JsonUtility.FromJson<GeneralDataSource>(json);
-        generalData = new GeneralData(sourceData);
+        generalData = GameManager.instance.generalData;
     }
 
     public void OnDestroy()

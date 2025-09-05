@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour
 
     public Areas currentArea = Areas.classroom;
     public DayTimes currentDayTime = DayTimes.morning;
+    public Days currentDay = Days.monday;
     public Action<string> InitiatingConversation;
+    public SpriteReferences sprites;
+    public GeneralData generalData;
 
     void Awake()
     {
@@ -20,7 +23,10 @@ public class GameManager : MonoBehaviour
             dialogueManager = GetComponent<DialogueManager>();
             aIManager = GetComponent<AIManager>();
             DontDestroyOnLoad(gameObject);
-            
+
+            string json = Resources.Load<TextAsset>("GeneralData").text;
+            GeneralDataSource sourceData = JsonUtility.FromJson<GeneralDataSource>(json);
+            generalData = new GeneralData(sourceData);
         }
         else
         {
@@ -28,10 +34,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator Start()
+    public void TravelToNewLocation(Areas area, string person)
     {
-        yield return new WaitForSeconds(0.1f);
-        InitiatingConversation?.Invoke("miko");
+        currentArea = area;
+        if (person != null)
+        {
+            InitiatingConversation?.Invoke(person);
+        }        
     }
 
     public static void UserInput(string input)

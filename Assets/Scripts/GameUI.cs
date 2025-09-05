@@ -8,7 +8,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TMP_InputField inputText;
     [SerializeField] private Image background;
     [SerializeField] private Image character;
-    [SerializeField] private SpriteReferences sprites;
+    private SpriteReferences sprites;
 
     void Start()
     {
@@ -16,6 +16,7 @@ public class GameUI : MonoBehaviour
         AIManager.AITranscription += UpdatePlayerText;
         DialogueManager.InternalDialogueResponse += UpdateNPCText;
         GameManager.instance.InitiatingConversation += UpdateVisuals;
+        sprites = GameManager.instance.sprites;
     }
 
     void OnDestroy()
