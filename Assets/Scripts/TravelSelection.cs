@@ -6,20 +6,12 @@ public class TravelSelection : MonoBehaviour
 {
     public GameObject buttonPrefab;
 
-    private List<Areas> unlockedAreas = new List<Areas>()
-    {
-        Areas.classroom, Areas.cafeteria, Areas.clubroom,
-        Areas.hallway, Areas.musicRoom, Areas.rooftop
-    };
-
     private Dictionary<Areas, string> avaibility = new Dictionary<Areas, string>()
     {
         { Areas.classroom, "7777700" }, { Areas.cafeteria, "3333300" },
         { Areas.clubroom, "6666600" }, { Areas.hallway, "7777700" },
         { Areas.rooftop, "2222200" }, { Areas.musicRoom, "4444400" }
     };
-
-    private List<string> unlockedCharacters = new List<string>() {"miko", "eve", "lia", "lena", "cari"};
 
     private bool CheckAvaibility(Areas area)
     {
@@ -32,7 +24,7 @@ public class TravelSelection : MonoBehaviour
     private List<Areas> GetAllAvaibleAreas()
     {
         List<Areas> list = new List<Areas>();
-        foreach (Areas area in unlockedAreas)
+        foreach (Areas area in GameManager.instance.progression.unlockedAreas)
         {
             if (CheckAvaibility(area))
             {
@@ -53,7 +45,7 @@ public class TravelSelection : MonoBehaviour
             GameObject obj = Instantiate(buttonPrefab, transform);
             TravelButton button = obj.GetComponent<TravelButton>();
             
-            button.SetButton(area, person, !unlockedCharacters.Contains(person)); // TODO
+            button.SetButton(area, person); // TODO
             button.transform.localPosition = new Vector3(0, -120 * pos, 0);
             pos++;
         }

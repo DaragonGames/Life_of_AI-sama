@@ -13,13 +13,13 @@ public class TravelButton : MonoBehaviour
         GameManager.instance.TravelToNewLocation(area, person);
     }
 
-    public void SetButton(Areas area, string person, bool newCharacter)
+    public void SetButton(Areas area, string person)
     {
         this.area = area;
         this.person = person;
         string areaName = GameManager.instance.generalData.areaDescriptions[area];
         GetComponentInChildren<TMP_Text>().text = areaName;
-        if (!newCharacter)
+        if (GameManager.instance.progression.characterRelationship[person] > 0)
         {
             character.sprite = GameManager.instance.sprites.GetCharacter(person);
         }

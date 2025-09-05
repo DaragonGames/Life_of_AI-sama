@@ -8,12 +8,13 @@ public class GameManager : MonoBehaviour
     private DialogueManager dialogueManager;
     private AIManager aIManager;
 
-    public Areas currentArea = Areas.classroom;
-    public DayTimes currentDayTime = DayTimes.morning;
-    public Days currentDay = Days.monday;
-    public Action<string> InitiatingConversation;
     public SpriteReferences sprites;
-    public GeneralData generalData;
+    [NonSerialized] public Areas currentArea = Areas.classroom;
+    [NonSerialized] public DayTimes currentDayTime = DayTimes.morning;
+    [NonSerialized] public Days currentDay = Days.monday;
+    [NonSerialized] public Action<string> InitiatingConversation;
+    [NonSerialized] public GeneralData generalData;
+    [NonSerialized] public Progression progression;
 
     void Awake()
     {
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
             string json = Resources.Load<TextAsset>("GeneralData").text;
             GeneralDataSource sourceData = JsonUtility.FromJson<GeneralDataSource>(json);
             generalData = new GeneralData(sourceData);
+            progression = new Progression();
         }
         else
         {
