@@ -29,10 +29,6 @@ public class UiToggler : MonoBehaviour
     void ToggleToDialogue(string empty)
     {
         travelUI.gameObject.SetActive(false);
-        for (int i = 0; i < dialougeUI.childCount; i++)
-        {
-            dialougeUI.transform.GetChild(i).gameObject.SetActive(true);
-        }
     }
 
     void ToggleToTravel()

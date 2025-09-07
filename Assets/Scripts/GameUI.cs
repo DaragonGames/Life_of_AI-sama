@@ -8,6 +8,8 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TMP_InputField inputText;
     [SerializeField] private Image background;
     [SerializeField] private Image character;
+    [SerializeField] private GameObject continueButton;
+    [SerializeField] private GameObject playerDialougeBox;
     private SpriteReferences sprites;
 
     void Start()
@@ -15,7 +17,8 @@ public class GameUI : MonoBehaviour
         AIManager.AIDialogueResponse += UpdateNPCText;
         AIManager.AITranscription += UpdatePlayerText;
         DialogueManager.InternalDialogueResponse += UpdateNPCText;
-        GameManager.instance.InitiatingConversation += UpdateVisuals;
+        GameManager.instance.InitiatingConversation += OnConversationStart;
+        DialogueManager.EndConversationEvent += OnConversationEnd;
         sprites = GameManager.instance.sprites;
     }
 
@@ -24,8 +27,27 @@ public class GameUI : MonoBehaviour
         AIManager.AIDialogueResponse -= UpdateNPCText;
         AIManager.AITranscription -= UpdatePlayerText;
         DialogueManager.InternalDialogueResponse -= UpdateNPCText;
-        GameManager.instance.InitiatingConversation -= UpdateVisuals;
+        GameManager.instance.InitiatingConversation -= OnConversationStart;
+        DialogueManager.EndConversationEvent -= OnConversationEnd;
     }
+
+    public void OnConversationStart(string name)
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(true);
+        }
+        continueButton.SetActive(false);
+        playerDialougeBox.SetActive(true);
+        UpdateVisuals(name);
+    }
+
+    public void OnConversationEnd()
+    {
+        continueButton.SetActive(true);
+        playerDialougeBox.SetActive(false);
+    }
+
 
     public void UpdateNPCText(string text)
     {
@@ -43,12 +65,13 @@ public class GameUI : MonoBehaviour
 
     public void OnSubmit()
     {
+        string unprocessed = GameManager.instance.dialogueManager.unprocessedInput; // Do something with this? 
         if (inputText.text.Length == 0)
         {
             return;
         }
-        GameManager.UserInput(inputText.text);
         npcText.text = "Waiting for Response";
+        GameManager.UserInput(inputText.text);
         inputText.text = "";
     }
 

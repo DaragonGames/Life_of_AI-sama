@@ -21,6 +21,15 @@
             ]
         },
         {
+            "id": "goodbye",
+            "allOptions": [
+                {
+                    "leadsToID": "",
+                    "npcResponse": ["Oh gosh, we completely lost track of the time. Let's better get going."]
+                }
+            ]
+        },
+        {
             "id": "clubs_all",
             "allOptions": [
                 {

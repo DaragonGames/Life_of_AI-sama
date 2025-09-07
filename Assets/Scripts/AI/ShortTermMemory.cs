@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ShortTermMemory
 {
@@ -27,6 +28,11 @@ public class ShortTermMemory
         return summary;
     }
 
+    public void Reset()
+    {
+        messages = new List<string>();
+    }
+
     public string LastMessage()
     {
         if (messages.Count == 0)
@@ -34,6 +40,11 @@ public class ShortTermMemory
             return null;
         }
         return messages[messages.Count - 1];
+    }
+
+    public int GetInteractionCount()
+    {
+        return messages.Count;
     }
 
 }

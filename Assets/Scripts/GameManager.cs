@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    private DialogueManager dialogueManager;
+    public DialogueManager dialogueManager;
     private AIManager aIManager;
 
     public SpriteReferences sprites;

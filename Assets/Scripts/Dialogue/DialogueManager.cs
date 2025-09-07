@@ -8,7 +8,7 @@ public class DialogueManager : MonoBehaviour
 
     // State Variables 
     private bool smallTalkMode = true;
-    private string unprocessedInput = "";
+    public string unprocessedInput = "";
     List<ExpectedAnswer> options;
     string currentDialoguePartID = "";
 
@@ -101,7 +101,7 @@ public class DialogueManager : MonoBehaviour
         if (id > -1)
         {
             // Give pre written Answer
-            GeneratePrewrittenResponse(id);     
+            GeneratePrewrittenResponse(id);  
         }
         else
         {
@@ -113,7 +113,7 @@ public class DialogueManager : MonoBehaviour
             {
                 GenerateSmallTalkResponse(unprocessedInput);
             }
-            SetState("");            
+            SetState("");
         }
     }
 
@@ -153,7 +153,7 @@ public class DialogueManager : MonoBehaviour
     }
 
     public static event System.Action<string> InternalDialogueResponse;
-
+    public static event System.Action EndConversationEvent;
 
 
 
@@ -164,7 +164,7 @@ public class DialogueManager : MonoBehaviour
 
     private bool CheckConversationLength()
     {
-        return false; // Use this for endless Testing, Adjust later
+        return promptGenerator.GetInteractionCount() > 5;
     }
 
     private void StartConversation()
@@ -172,10 +172,13 @@ public class DialogueManager : MonoBehaviour
         // Return one basic Start Message or Generate one Random with Prompt
     }
 
-
     private void EndConversation()
     {
-        // Return one basic End Message or Generate one Random with Prompt
+        ExpectedAnswer answer = characterData.dialougeParts["goodbye"].allOptions[0];
+        Debug.Log(answer.npcResponse[Random.Range(0, answer.npcResponse.Length)]);
+        InternalDialogueResponse?.Invoke(answer.npcResponse[Random.Range(0, answer.npcResponse.Length)]);
+        SetState("");
+        EndConversationEvent?.Invoke();
     }
 
 }

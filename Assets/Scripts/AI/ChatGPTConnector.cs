@@ -42,7 +42,7 @@ public static class ChatGPTConnector
 
   public static string ExtractMessage(string input)
   {
-    Debug.Log(input);
+//    Debug.Log(input);
     try
     {
       Dictionary<string, object> data = ProcessGptOutput(input);

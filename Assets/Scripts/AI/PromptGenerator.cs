@@ -10,14 +10,26 @@ public class PromptGenerator
         memory = new ShortTermMemory();
         AIManager.AIDialogueResponse += memory.AddToConversation;
         DialogueManager.InternalDialogueResponse += memory.AddToConversation;
+        GameManager.instance.InitiatingConversation += ResetMemory;
 
         generalData = GameManager.instance.generalData;
+    }
+
+    public void ResetMemory(string empty)
+    {
+        memory.Reset();
+    }
+
+    public int GetInteractionCount()
+    {
+        return memory.GetInteractionCount();
     }
 
     public void OnDestroy()
     {
         AIManager.AIDialogueResponse -= memory.AddToConversation;
         DialogueManager.InternalDialogueResponse -= memory.AddToConversation;
+        GameManager.instance.InitiatingConversation -= ResetMemory;
     }
 
     public string[] defaultChatPrompt(string userInput, CharacterData data)
@@ -54,8 +66,6 @@ public class PromptGenerator
         {
             developerMessage += i + ":" + options[i];
         }       
-
-        Debug.Log(generalData.checkingSystemPrompt + "  " +  developerMessage + "  " + userInput );
 
         return new string[] { generalData.checkingSystemPrompt, developerMessage, "User Input: " + userInput };
     }
