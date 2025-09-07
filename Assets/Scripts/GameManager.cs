@@ -10,9 +10,11 @@ public class GameManager : MonoBehaviour
 
     public SpriteReferences sprites;
     [NonSerialized] public Areas currentArea = Areas.classroom;
-    [NonSerialized] public DayTimes currentDayTime = DayTimes.morning;
-    [NonSerialized] public Days currentDay = Days.monday;
+    public DayTimes currentDayTime = DayTimes.morning;
+    public Days currentDay = Days.monday;
     [NonSerialized] public Action<string> InitiatingConversation;
+    [NonSerialized] public Action EnterEmptyPlace;
+    [NonSerialized] public Action Progression;
     [NonSerialized] public GeneralData generalData;
     [NonSerialized] public Progression progression;
 
@@ -42,7 +44,25 @@ public class GameManager : MonoBehaviour
         if (person != null)
         {
             InitiatingConversation?.Invoke(person);
-        }        
+        }
+        else
+        {
+            EnterEmptyPlace?.Invoke();
+        }     
+    }
+
+    public void Continue()
+    {
+        if (currentDayTime == DayTimes.evening)
+        {
+            currentDayTime = DayTimes.morning;
+            currentDay = (Days)(((int)currentDay + 1) % 5);
+        }
+        else
+        {
+            currentDayTime = (DayTimes)(((int)currentDayTime + 1) % 3);
+        }
+        Progression.Invoke();
     }
 
     public static void UserInput(string input)

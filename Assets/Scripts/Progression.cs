@@ -10,7 +10,7 @@ public class Progression
 
     public Dictionary<string, int> characterRelationship = new Dictionary<string, int>()
     {
-        {"miko", 0},{"eve", 0},{"lia", 0},{"lena", 0},{"cari", 0},
+        {"miko", 1},{"eve", 1},{"lia", 1},{"lena", 1},{"cari", 1},
     };
         
     public List<Areas> unlockedAreas = new List<Areas>()

@@ -36,26 +36,45 @@ public class TravelSelection : MonoBehaviour
 
     private void SetUI()
     {
-        string[] debug = new string[5] {"miko", "eve", "lia", "lena", "cari"};
+        for (int i = transform.childCount; i > 0; i--)
+        {
+            Destroy(transform.GetChild(i - 1).gameObject);
+        }
+
+        var matches = cd.getSchedule();
 
         int pos = 0;
         foreach (var area in GetAllAvaibleAreas())
         {
-            string person = debug[UnityEngine.Random.Range(0, debug.Length)];
+            string person = null;
+            if (matches.ContainsKey(area))
+            {
+                person = matches[area];
+            }
             GameObject obj = Instantiate(buttonPrefab, transform);
             TravelButton button = obj.GetComponent<TravelButton>();
-            
-            button.SetButton(area, person); // TODO
+
+            button.SetButton(area, person);
             button.transform.localPosition = new Vector3(0, -120 * pos, 0);
             pos++;
         }
         transform.localPosition = new Vector3(-25, 60 * (pos - 1), 0);
     }
 
+    private CharacterScheduler cd = new CharacterScheduler();
+
     void Start()
     {
         // DEBUG
         SetUI();
+        //GameObject obj = Instantiate(buttonPrefab, transform);
+        //obj.GetComponent<TravelButton>().SetButton(Areas.classroom, "miko");
+        GameManager.instance.Progression += SetUI;
+    }
+
+    void OnDestroy()
+    {
+        GameManager.instance.Progression -= SetUI;
     }
 
 }
