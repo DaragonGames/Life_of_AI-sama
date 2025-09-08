@@ -16,7 +16,7 @@
                 {
                     "possibleAnswer": ["Asking about School Clubs"],
                     "leadsToID": "clubs_all",
-                    "npcResponse": ["Oh yeah there are many cool clubs, where do I even start?", "Oh I know a few."]
+                    "npcResponse": ["School clubs? Yeah we have some cool ones."]
                 }
             ]
         },
@@ -35,7 +35,8 @@
                 {
                     "possibleAnswer": ["Asking about which club they are in", "Asking about their favorite club"],
                     "leadsToID": "clubs_all",
-                    "npcResponse": ["I'm in the music club, since I do like singing and dancing."]
+                    "npcResponse": ["I'm in the tech club, I do have a knack for robot."],
+                    "conditionsUnlocked": ["Area_Club_Room"]
                 },
                 {
                     "possibleAnswer": ["Asking to list all clubs"],

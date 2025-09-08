@@ -25,6 +25,7 @@
             "id": "goodbye",
             "allOptions": [
                 {
+                    "possibleAnswer": [""],
                     "leadsToID": "",
                     "npcResponse": ["Oh gosh, we completely lost track of the time. Let's better get going."]
                 }
@@ -36,7 +37,8 @@
                 {
                     "possibleAnswer": ["Asking about which club they are in", "Asking about their favorite club"],
                     "leadsToID": "clubs_all",
-                    "npcResponse": ["I'm in the music club, since I do like singing and dancing."]
+                    "npcResponse": ["I'm in the music club, since I do like singing and dancing."],
+                    "conditionsUnlocked":["Area_Music_Room"]
                 },
                 {
                     "possibleAnswer": ["Asking to list all clubs"],

@@ -65,11 +65,15 @@ public struct ExpectedAnswer
     public string[] possibleAnswer;
     public string leadsToID;
     public string[] npcResponse;
-    public ExpectedAnswer(string[] possibleAnswer, string leadsToID, string[] npcResponse)
+    public string[] conditionsRequired;
+    public string[] conditionsUnlocked;
+    public ExpectedAnswer(string[] possibleAnswer, string leadsToID, string[] npcResponse, string[] conditionsRequired, string[] conditionsUnlocked)
     {
         this.possibleAnswer = possibleAnswer;
         this.leadsToID = leadsToID;
         this.npcResponse = npcResponse;
+        this.conditionsRequired = conditionsRequired;
+        this.conditionsUnlocked = conditionsUnlocked;
     }
 }
 

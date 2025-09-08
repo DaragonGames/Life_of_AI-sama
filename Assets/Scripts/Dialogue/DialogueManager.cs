@@ -61,9 +61,17 @@ public class DialogueManager : MonoBehaviour
             {
                 continue;
             }*/
+            if (node.conditionsRequired != null)
+            {
+                if (GameManager.instance.progression.CheckCondtions(node.conditionsRequired))
+                {
+                    continue;
+                }
+            }
             options.Add(node);
             foreach (string answer in node.possibleAnswer)
             {
+
                 allPossibleAnswers.Add(answer);
             }            
         }
@@ -138,7 +146,7 @@ public class DialogueManager : MonoBehaviour
         ExpectedAnswer selected = options[0];
         foreach (ExpectedAnswer option in options)
         {
-            count+= option.possibleAnswer.Length;
+            count += option.possibleAnswer.Length;
             if (id < count)
             {
                 selected = option;
@@ -147,9 +155,17 @@ public class DialogueManager : MonoBehaviour
         }
         // Process the selected Answer
         string next = selected.leadsToID;
-        string npcText = selected.npcResponse[Random.Range(0,selected.npcResponse.Length)];
+        string npcText = selected.npcResponse[Random.Range(0, selected.npcResponse.Length)];
         InternalDialogueResponse?.Invoke(npcText);
-        SetState(next);   
+        SetState(next);
+        // Check for unlocks
+        if (selected.conditionsUnlocked != null)
+        {
+            foreach (string unlock in selected.conditionsUnlocked)
+            {
+                GameManager.instance.progression.UnlockSomething(unlock);
+            }
+        }
     }
 
     public static event System.Action<string> InternalDialogueResponse;
@@ -164,7 +180,7 @@ public class DialogueManager : MonoBehaviour
 
     private bool CheckConversationLength()
     {
-        return promptGenerator.GetInteractionCount() > 5;
+        return promptGenerator.GetInteractionCount() > 3;
     }
 
     private void StartConversation()
