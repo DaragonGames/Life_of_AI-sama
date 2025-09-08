@@ -56,11 +56,6 @@ public class DialogueManager : MonoBehaviour
         DialogueNode temp = characterData.dialougeParts["default"];
         foreach (ExpectedAnswer node in temp.allOptions)
         {
-            /* Not sure about this part yet
-            if (node.leadsToID == currentDialoguePartID)
-            {
-                continue;
-            }*/
             if (node.conditionsRequired != null)
             {
                 if (GameManager.instance.progression.CheckCondtions(node.conditionsRequired))

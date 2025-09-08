@@ -68,8 +68,8 @@ public class GameUI : MonoBehaviour
 
     public void OnSubmit()
     {
-        string unprocessed = GameManager.instance.dialogueManager.unprocessedInput; // Do something with this? 
-        if (inputText.text.Length == 0)
+        string unprocessed = GameManager.instance.dialogueManager.unprocessedInput;
+        if (inputText.text.Length == 0 || unprocessed != "")
         {
             return;
         }
