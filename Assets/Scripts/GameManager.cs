@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
         if (person != null)
         {
             InitiatingConversation?.Invoke(person);
+            progression.MeetCharacter(person);
         }
         else
         {

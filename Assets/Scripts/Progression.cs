@@ -5,7 +5,12 @@ public class Progression
 {
     public Dictionary<string, int> characterRelationship = new Dictionary<string, int>()
     {
-        {"miko", 1},{"eve", 1},{"lia", 1},{"lena", 1},{"cari", 1},
+        {"Miko", 0},{"Eve", 0},{"Lia", 0},{"Lena", 0},{"Cari", 0},
+    };
+
+    public Dictionary<string, int> charactersMeetCounter = new Dictionary<string, int>()
+    {
+        {"Miko", 0},{"Eve", 0},{"Lia", 0},{"Lena", 0},{"Cari", 0},
     };
 
     public List<Areas> unlockedAreas = new List<Areas>()
@@ -50,5 +55,18 @@ public class Progression
         }
         return avaible;
     }
-    
+
+    public void MeetCharacter(string name)
+    {
+        charactersMeetCounter[name]++;
+        if (charactersMeetCounter[name] == 1)
+        {
+            characterRelationship[name]++;
+        }
+        if (charactersMeetCounter[name] == 3)
+        {
+            characterRelationship[name]++;
+        }
+    }
+
 }

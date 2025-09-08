@@ -6,17 +6,17 @@ public class CharacterScheduler
 {
     public List<PersonalSchedule> fixedSchedules = new List<PersonalSchedule>()
     {
-        new PersonalSchedule("miko", new List<Appointment>(){
+        new PersonalSchedule("Miko", new List<Appointment>(){
             new Appointment(DayTimes.evening, Areas.musicRoom, Days.thursday),
             new Appointment(DayTimes.evening, Areas.musicRoom, Days.monday)
         }),
-        new PersonalSchedule("lena", new List<Appointment>(){
+        new PersonalSchedule("Lena", new List<Appointment>(){
             new Appointment(DayTimes.evening, Areas.clubroom, Days.firday)
         }),
-        new PersonalSchedule("lia", new List<Appointment>(){
+        new PersonalSchedule("Lia", new List<Appointment>(){
             new Appointment(DayTimes.evening, Areas.clubroom, Days.tuesday)
         }),
-        new PersonalSchedule("lia", new List<Appointment>(){
+        new PersonalSchedule("Lia", new List<Appointment>(){
             new Appointment(DayTimes.evening, Areas.clubroom, Days.wednesday)
         })
     };
@@ -24,7 +24,7 @@ public class CharacterScheduler
     public Dictionary<Areas, string> getSchedule()
     {
         Dictionary<Areas, string> matches = new Dictionary<Areas, string>();
-        List<string> allCharacters = new List<string>() { "miko", "eve", "lia", "lena", "cari" };
+        List<string> allCharacters = new List<string>() { "Miko", "Eve", "Llia", "Lena", "Cari" };
 
         // Get all fixed Schedules
         GameManager gm = GameManager.instance;
@@ -41,7 +41,7 @@ public class CharacterScheduler
         }
 
         // Rooftop
-        string[] options = new string[] { "eve", "cari", null, null };
+        string[] options = new string[] { "Eve", "Cari", null, null };
         string pick = options[Random.Range(0, options.Length)];
         if (pick != null)
         {
@@ -50,7 +50,7 @@ public class CharacterScheduler
         }
 
         // Caffee
-        options = new string[] { "miko", "lena", "cari", null };
+        options = new string[] { "Miko", "Lena", "Cari", null };
         pick = options[Random.Range(0, options.Length)];
         if (pick != null && allCharacters.Contains(pick))
         {
@@ -59,7 +59,7 @@ public class CharacterScheduler
         }
 
         // Classroom
-        options = new string[] { "miko", "eve", "lia", "cari", null, null };
+        options = new string[] { "Miko", "Eve", "Lia", "Cari", null, null };
         pick = options[Random.Range(0, options.Length)];
         if (pick != null && allCharacters.Contains(pick))
         {

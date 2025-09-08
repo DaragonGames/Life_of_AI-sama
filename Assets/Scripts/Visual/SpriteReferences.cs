@@ -39,15 +39,15 @@ public class SpriteReferences : ScriptableObject
     {
         switch (name)
         {
-            case "miko":
+            case "Miko":
                 return miko;
-            case "eve":
+            case "Eve":
                 return eve;
-            case "cari":
+            case "Cari":
                 return cari;
-            case "lena":
+            case "Lena":
                 return lena;
-            case "lia":
+            case "Lia":
                 return lia;
             default:
                 return miko;

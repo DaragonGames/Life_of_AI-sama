@@ -68,7 +68,7 @@ public class TravelSelection : MonoBehaviour
         // DEBUG
         //SetUI();
         GameObject obj = Instantiate(buttonPrefab, transform);
-        obj.GetComponent<TravelButton>().SetButton(Areas.classroom, "miko");
+        obj.GetComponent<TravelButton>().SetButton(Areas.classroom, "Miko");
         GameManager.instance.Progression += SetUI;
     }
 

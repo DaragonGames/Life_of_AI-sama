@@ -41,8 +41,10 @@ public class PromptGenerator
         string dayTimeText = generalData.dayTimesDescriptions[GameManager.instance.currentDayTime];
         string developerMessage = "Setting: " + areaText + ", " + dayTimeText;
 
-        // Add Character Infos to Developer Prompt
-        developerMessage += data.relationship[0] + " Your Role:";
+        // Add Character Infos to Developer 
+        int maxR = data.relationship.Length-1;
+        int currentR = GameManager.instance.progression.characterRelationship[data.name];
+        developerMessage += data.relationship[maxR < currentR ? maxR : currentR] + " Your Role:";
         foreach (string part in data.characterDescription)
         {
             developerMessage += " " + part;
