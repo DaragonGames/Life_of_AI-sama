@@ -19,6 +19,7 @@ public class GameUI : MonoBehaviour
         DialogueManager.InternalDialogueResponse += UpdateNPCText;
         GameManager.instance.InitiatingConversation += OnConversationStart;
         DialogueManager.EndConversationEvent += OnConversationEnd;
+        GameManager.instance.EnterEmptyPlace += UpdateBackground;
         sprites = GameManager.instance.sprites;
     }
 
@@ -29,6 +30,7 @@ public class GameUI : MonoBehaviour
         DialogueManager.InternalDialogueResponse -= UpdateNPCText;
         GameManager.instance.InitiatingConversation -= OnConversationStart;
         DialogueManager.EndConversationEvent -= OnConversationEnd;
+        GameManager.instance.EnterEmptyPlace -= UpdateBackground;
     }
 
     public void OnConversationStart(string name)
@@ -39,6 +41,7 @@ public class GameUI : MonoBehaviour
         }
         continueButton.SetActive(false);
         playerDialougeBox.SetActive(true);
+        npcText.text = "";
         UpdateVisuals(name);
     }
 
@@ -79,6 +82,11 @@ public class GameUI : MonoBehaviour
     {
         background.sprite = sprites.GetBackground(GameManager.instance.currentArea, GameManager.instance.currentDayTime);
         character.sprite = sprites.GetCharacter(name);
+    }
+
+    public void UpdateBackground()
+    {
+        background.sprite = sprites.GetBackground(GameManager.instance.currentArea, GameManager.instance.currentDayTime);
     }
 
 }

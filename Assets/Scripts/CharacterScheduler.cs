@@ -24,7 +24,7 @@ public class CharacterScheduler
     public Dictionary<Areas, string> getSchedule()
     {
         Dictionary<Areas, string> matches = new Dictionary<Areas, string>();
-        List<string> allCharacters = new List<string>() { "Miko", "Eve", "Llia", "Lena", "Cari" };
+        List<string> allCharacters = new List<string>() { "Miko", "Eve", "Lia", "Lena", "Cari" };
 
         // Get all fixed Schedules
         GameManager gm = GameManager.instance;
