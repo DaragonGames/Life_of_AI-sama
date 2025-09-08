@@ -63,11 +63,13 @@ public class PromptGenerator
         }
         
 
-        developerMessage += "Options: ";
+        developerMessage += " Options:";
         for (int i = 0; i < options.Length; i++)
         {
-            developerMessage += i + ":" + options[i];
-        }       
+            developerMessage += " " + i + "=" + options[i];
+        }      
+
+        Debug.Log(developerMessage);
 
         return new string[] { generalData.checkingSystemPrompt, developerMessage, "User Input: " + userInput };
     }
