@@ -181,7 +181,6 @@ public class DialogueManager : MonoBehaviour
     private void EndConversation()
     {
         ExpectedAnswer answer = characterData.dialougeParts["goodbye"].allOptions[0];
-        Debug.Log(answer.npcResponse[Random.Range(0, answer.npcResponse.Length)]);
         InternalDialogueResponse?.Invoke(answer.npcResponse[Random.Range(0, answer.npcResponse.Length)]);
         SetState("");
         EndConversationEvent?.Invoke();

@@ -639,6 +639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f98afac03bde27544b6c590ab72a1cc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dotSpeed: 0.5
   npcText: {fileID: 794693898}
   inputText: {fileID: 691787937}
   background: {fileID: 420567568}
@@ -1473,8 +1474,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
   sprites: {fileID: 11400000, guid: cae51ebd959e61b40a0821da72c5a4a8, type: 2}
-  currentDayTime: 0
-  currentDay: 0
 --- !u!4 &1066892300
 Transform:
   m_ObjectHideFlags: 0

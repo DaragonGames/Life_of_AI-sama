@@ -24,7 +24,6 @@ public class ShortTermMemory
             summary += (i % 2 == 0) ? " You said: " : " User said: ";
             summary += messages[i];
         }
-        Debug.Log(summary);
         return summary;
     }
 

@@ -58,7 +58,7 @@ public class PromptGenerator
     {
         int maxR = data.relationship.Length-1;
         int currentR = GameManager.instance.progression.characterRelationship[data.name];
-        string developerMessage = data.relationship[maxR < currentR ? maxR : currentR] + " Your Role:";
+        string developerMessage = data.relationship[Mathf.Min(currentR, maxR)] + " Your Role:";
         foreach (string part in data.characterDescription)
         {
             developerMessage += " " + part;
@@ -81,8 +81,6 @@ public class PromptGenerator
         {
             developerMessage += " " + i + "=" + options[i];
         }
-
-        Debug.Log(developerMessage);
 
         return new string[] { generalData.checkingSystemPrompt, developerMessage, "User Input: " + userInput };
     }

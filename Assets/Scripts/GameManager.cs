@@ -10,8 +10,8 @@ public class GameManager : MonoBehaviour
 
     public SpriteReferences sprites;
     [NonSerialized] public Areas currentArea = Areas.classroom;
-    public DayTimes currentDayTime = DayTimes.morning;
-    public Days currentDay = Days.monday;
+    [NonSerialized] public DayTimes currentDayTime = DayTimes.morning;
+    [NonSerialized] public Days currentDay = Days.monday;
     [NonSerialized] public Action<string> InitiatingConversation;
     [NonSerialized] public Action EnterEmptyPlace;
     [NonSerialized] public Action Progression;
