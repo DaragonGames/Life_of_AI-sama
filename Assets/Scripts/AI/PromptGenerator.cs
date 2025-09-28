@@ -39,7 +39,7 @@ public class PromptGenerator
         // Add Seting Text to Developer Prompt
         string areaText = generalData.areaDescriptions[GameManager.instance.currentArea];
         string dayTimeText = generalData.dayTimesDescriptions[GameManager.instance.currentDayTime];
-        string developerMessage = "Setting: " + areaText + ", " + dayTimeText;
+        string developerMessage = "Current Location: " + areaText + ", Current Time:" + dayTimeText + ", ";
 
         // Add Character Infos to Developer 
         int maxR = data.relationship.Length-1;
@@ -49,6 +49,7 @@ public class PromptGenerator
         {
             developerMessage += " " + part;
         }
+        developerMessage += generalData.generalInfoPretext + generalData.generalInfo;
 
         return new string[] { generalData.chatSystemPrompt, developerMessage, userInput, memory.GetSummary() };
     }
