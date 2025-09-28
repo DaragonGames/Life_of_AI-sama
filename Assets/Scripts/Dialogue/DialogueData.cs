@@ -16,6 +16,7 @@ public struct GeneralData
 {
     public string checkingSystemPrompt;
     public string chatSystemPrompt;
+    public string firstMessagePrompt;
     public string generalInfo;
     public string generalInfoPretext;
     public Dictionary<Areas, string> areaDescriptions;
@@ -25,6 +26,7 @@ public struct GeneralData
     {
         checkingSystemPrompt = sourceData.checkingSystemPrompt;
         chatSystemPrompt = sourceData.chatSystemPrompt;
+        firstMessagePrompt = sourceData.firstMessagePrompt;
         areaDescriptions = new Dictionary<Areas, string>();
         dayTimesDescriptions = new Dictionary<DayTimes, string>();
         generalInfo = sourceData.generalInfo;
@@ -46,6 +48,7 @@ public struct GeneralDataSource
 {
     public string checkingSystemPrompt;
     public string chatSystemPrompt;
+    public string firstMessagePrompt;
     public string generalInfo;
     public string generalInfoPretext;
     public string[] areas;

@@ -54,7 +54,19 @@ public class PromptGenerator
         return new string[] { generalData.chatSystemPrompt, developerMessage, userInput, memory.GetSummary() };
     }
 
-    public string[] checkingPrompt(string userInput, string[] options )
+    public string[] firstMessage(CharacterData data)
+    {
+        int maxR = data.relationship.Length-1;
+        int currentR = GameManager.instance.progression.characterRelationship[data.name];
+        string developerMessage = data.relationship[maxR < currentR ? maxR : currentR] + " Your Role:";
+        foreach (string part in data.characterDescription)
+        {
+            developerMessage += " " + part;
+        }
+        return new string[] { generalData.firstMessagePrompt, developerMessage};
+    }
+
+    public string[] checkingPrompt(string userInput, string[] options)
     {
         string developerMessage = "";
         string lastMessage = memory.LastMessage();
@@ -62,13 +74,13 @@ public class PromptGenerator
         {
             developerMessage += "Here is your last message for context: " + memory.LastMessage();
         }
-        
+
 
         developerMessage += " Options:";
         for (int i = 0; i < options.Length; i++)
         {
             developerMessage += " " + i + "=" + options[i];
-        }      
+        }
 
         Debug.Log(developerMessage);
 

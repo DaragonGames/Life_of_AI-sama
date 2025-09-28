@@ -34,6 +34,7 @@ public class DialogueManager : MonoBehaviour
         {
             characterData.dialougeParts.Add(part.id, part);
         }
+        StartConversation();
     }
 
     public void HandleUserInput(string input)
@@ -166,21 +167,15 @@ public class DialogueManager : MonoBehaviour
     public static event System.Action<string> InternalDialogueResponse;
     public static event System.Action EndConversationEvent;
 
-
-
-
-
-
-
-
     private bool CheckConversationLength()
     {
-        return promptGenerator.GetInteractionCount() > 10;
+        return promptGenerator.GetInteractionCount() > 3;
     }
 
     private void StartConversation()
     {
-        // Return one basic Start Message or Generate one Random with Prompt
+        string[] prompt = promptGenerator.firstMessage(characterData);
+        AIManager.TextRequest(prompt, false);
     }
 
     private void EndConversation()
