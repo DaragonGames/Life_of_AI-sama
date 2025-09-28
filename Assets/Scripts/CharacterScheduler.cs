@@ -21,10 +21,13 @@ public class CharacterScheduler
         })
     };
 
+    private Dictionary<Areas, string> matches;
+    private List<string> allCharacters;
+
     public Dictionary<Areas, string> getSchedule()
     {
-        Dictionary<Areas, string> matches = new Dictionary<Areas, string>();
-        List<string> allCharacters = new List<string>() { "Miko", "Eve", "Lia", "Lena", "Cari" };
+        matches = new Dictionary<Areas, string>();
+        allCharacters = new List<string>() { "Miko", "Eve", "Lia", "Lena", "Cari" };
 
         // Get all fixed Schedules
         GameManager gm = GameManager.instance;
@@ -40,49 +43,33 @@ public class CharacterScheduler
             }
         }
 
-        // Rooftop
-        string[] options = new string[] { "Eve", "Cari", null, null };
-        string pick = options[Random.Range(0, options.Length)];
-        if (pick != null)
-        {
-            matches.Add(Areas.rooftop, pick);
-            allCharacters.Remove(pick);
-        }
+        AddToMatch(new string[] { "Eve", "Cari"}, 0.5f, Areas.rooftop);
+        AddToMatch(new string[] { "Miko", "Lena", "Cari"}, 0.33f, Areas.cafeteria);
 
-        // Caffee
-        options = new string[] { "Miko", "Lena", "Cari", null };
-        pick = options[Random.Range(0, options.Length)];
-        if (pick != null && allCharacters.Contains(pick))
-        {
-            matches.Add(Areas.cafeteria, pick);
-            allCharacters.Remove(pick);
-        }
-
-        // Classroom
-        options = new string[] { "Miko", "Eve", "Lia", "Cari", null, null };
-        pick = options[Random.Range(0, options.Length)];
-        if (pick != null && allCharacters.Contains(pick))
-        {
-            matches.Add(Areas.classroom, pick);
-            allCharacters.Remove(pick);
-        }
-
-        // Hallway
-        options = allCharacters.ToArray();
-        if (matches.Count > 0)
-        {
-            options.Append(null);
-            options.Append(null);
-        }
-        pick = options[Random.Range(0, options.Length)];
-        if (pick != null && allCharacters.Contains(pick))
-        {
-            matches.Add(Areas.hallway, pick);
-            allCharacters.Remove(pick);
-        }
+        // Gurantee at least one person is avaible 
+        bool rb = Random.value > 0.5f;
+        float rc = 1.5f - 0.3f * allCharacters.Count; 
+        float classroomChance = rb ? rc : 0;
+        float hallwayChance = rb ? 0 : rc;
+        AddToMatch(new string[] { "Miko", "Eve", "Lia", "Cari"}, classroomChance, Areas.classroom);
+        AddToMatch(allCharacters.ToArray(), hallwayChance, Areas.hallway);
 
         return matches;
+    }
 
+    public void AddToMatch(string[] options, float nullChance, Areas area)
+    {
+        options =options.Intersect(allCharacters).ToArray();
+        if (options.Length == 0)
+        {
+            return;
+        }
+        string pick = options[Random.Range(0, options.Length)];
+        if (nullChance < Random.value && allCharacters.Contains(pick))
+        {
+            matches.Add(area, pick);
+            allCharacters.Remove(pick);
+        }
     }
 }
 
