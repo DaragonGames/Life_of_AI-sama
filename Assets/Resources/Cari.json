@@ -1,7 +1,8 @@
 {
     "name": "Cari",
     "relationship": [
-        "You are talking to the new transfer student, for the first time."
+        "You are talking to the new transfer student, for the first time.",
+        "You are talking to the new transfer student."
     ],
     "characterDescription": [
         "Cari a female classmate of the player.",
