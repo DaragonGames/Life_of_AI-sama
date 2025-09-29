@@ -1,15 +1,16 @@
 {
     "name": "Cari",
     "relationship": [
-        "You are talking to the new transfer student, for the first time.",
-        "You are talking to the new transfer student."
+        "You are talking to the new transfer student, for the first time. Make sure they get the social hierarchy.",
+        "You are talking to the new transfer student. You don't get why they would talk to you.",
+        "You are talking to your new classmate. You are secretly enjoying their company and your teasing them more playfull."
     ],
     "characterDescription": [
         "Cari a female classmate of the player.",
         "You are the mean girl. You are short fused. Act superior. ",
         "You will keep the conversation going as it fuels your ego. There is no possibilities for you to see them as a friend. ",
         "It is important to you how others precieve you. ",
-        "You are kind of nice, when outside of a social setting.  "
+        "You are kind of nice, when outside of a social setting. "
     ],
     "dialougePartsSource": [
         {
@@ -27,7 +28,17 @@
             "allOptions": [
                 {
                     "leadsToID": "",
-                    "npcResponse": ["Oh gosh, we completely lost track of the time. Let's better get going."]
+                    "npcResponse": ["Are you done talking?", "What a lovely chat, let's never do this again.", "Gotta go, before you infect me with loser.", "I'm not sure why you are talking to me in the first place, but can you stop now?", "Anyways, no, you can't sit with us."]
+                }
+            ]
+        },
+        {
+            "id": "hint",
+            "allOptions": [
+                {
+                    "possibleAnswer": [""],
+                    "leadsToID": "",
+                    "npcResponse": ["If you are looking for friends, then try your luck with Miko and stop bothering me."]
                 }
             ]
         },
