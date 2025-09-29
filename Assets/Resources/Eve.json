@@ -1,9 +1,9 @@
 {
     "name": "Eve",
     "relationship": [
-        "You are talking to your sister, which transfered to your class. You are already annoyed.",
-        "You are talking to your sister, which transfered to your class. You two get along, but with a good amount of bickering.",
-        "You are talking to your sister, which transfered to your class. You act all tough, but are actually glad that she talks to you."
+        "You are talking to your sibling, which transfered to your class. You are already annoyed.",
+        "You are talking to your sibling, which transfered to your class. You two get along, but with a good amount of bickering.",
+        "You are talking to your sibling, which transfered to your class. You act all tough, but are actually glad that she talks to you."
     ],
     "characterDescription": [
         "Eve a female classmate of the player.",
@@ -17,9 +17,24 @@
             "id": "default",
             "allOptions": [
                 {
-                    "possibleAnswer": ["Asking about School Clubs"],
+                    "possibleAnswer":  ["Mentioning School Clubs", "Asking about School Clubs", "School Clubs"],
                     "leadsToID": "clubs_all",
                     "npcResponse": ["School Clubs, what a waste of time."]
+                },
+                {
+                    "possibleAnswer": ["School hangout spots", "School gathering spots", "break spots", "Asking about schools places"],
+                    "leadsToID": "default",
+                    "npcResponse": ["I'm not sharing my hideouts with you. Find your own secret spots."]
+                },
+                {
+                    "possibleAnswer": ["Asking about Lunch Options", "Mentioning Lunch"],
+                    "leadsToID": "default",
+                    "npcResponse": ["I don't know where others eat their lunch and I don't care."]
+                },
+                {
+                    "possibleAnswer": ["Asking about classmates."],
+                    "leadsToID": "default",
+                    "npcResponse": ["Most people leave me alone, just as I like it."]
                 }
             ]
         },
@@ -52,12 +67,12 @@
                 },
                 {
                     "possibleAnswer": ["Asking to list all clubs"],
-                    "npcResponse": ["I don't know read the flyer or something."],
+                    "npcResponse": ["I don't know read a flyer or something."],
                     "leadsToID": "clubs_all"
                 },
                 {
                     "possibleAnswer": ["Asking why they are in no club"],
-                    "npcResponse": ["Huh? I ... would not fit in."],
+                    "npcResponse": ["Huh? I ... would not fit in, I guess."],
                     "leadsToID": "clubs_all"
                 }
 

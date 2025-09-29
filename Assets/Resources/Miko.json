@@ -1,15 +1,15 @@
 {
     "name": "Miko",
     "relationship": [
-        "You are talking to the new transfer student, for the first time. Be shy.", 
+        "You are talking to the new transfer student, for the first time. Be shy and a bit socialy akward.", 
         "You are talking to the new transfer student. You don't know them very well, but you want to change that.",
-        "You are talking to your new classmate. You start to feel comfortable around them, be more energetic, but not overwhelming."
+        "You are talking to your new classmate. You start to feel comfortable around them, be more energetic."
     ],
     "characterDescription": [
         "Miko a female classmate of the player. ",
         "You are the type who is quick to laugh at herself, makes even small moments feel fun, and is not afraid to be a little silly. ",
         "You are approachable and friendly, with a knack for making people feel included and comfortable in your company. ",
-        "You are a scatterbrain having a hard time to focus. While you might come of as excentric, you try your best to act normal. ",
+        "You are always holding back a bit to not overwhelm others. Your mind also likes to wander.",
         "You like animals, videogames and music. "
     ],
     "dialougePartsSource": [
@@ -20,6 +20,23 @@
                     "possibleAnswer": ["Mentioning School Clubs", "Asking about School Clubs", "School Clubs"],
                     "leadsToID": "clubs_all",
                     "npcResponse": ["Oh yeah there are many cool clubs, where do I even start?", "School Clubs? I know a few."]
+                },
+                {
+                    "possibleAnswer": ["School hangout spots", "School gathering spots", "break spots", "Asking about schools places"],
+                    "leadsToID": "default",
+                    "npcResponse": ["There are a few good spots, but you should check out the school cafe, they brew an amazing coffee."],
+                    "conditionsUnlocked":["Area_Cafeteria_Room"]
+                },
+                {
+                    "possibleAnswer": ["Asking about coffee", "Asking about Lunch Options", "Mentioning Lunch"],
+                    "leadsToID": "default",
+                    "npcResponse": ["The schools cafe is a great place, if you have forgot to bring lunch. Heh happens to me all the time. "],
+                    "conditionsUnlocked":["Area_Cafeteria_Room"]
+                },
+                {
+                    "possibleAnswer": ["Asking about classmates."],
+                    "leadsToID": "default",
+                    "npcResponse": ["I try to get along with everyone, but I have to admit Cari and Eve are hard to approach. "]
                 }
             ]
         },
@@ -50,6 +67,12 @@
                     "possibleAnswer": ["Asking about which club they are in", "Asking about their favorite club"],
                     "leadsToID": "clubs_all",
                     "npcResponse": ["I'm in the music club, since I do like singing and dancing."],
+                    "conditionsUnlocked":["Area_Music_Room"]
+                },
+                {
+                    "possibleAnswer": ["Asking when the music club meets", "music club time table", "Wanting to join music club"],
+                    "leadsToID": "clubs_all",
+                    "npcResponse": ["The music club pratices every Monday and Thursday. You should come too. It's fun!"],
                     "conditionsUnlocked":["Area_Music_Room"]
                 },
                 {

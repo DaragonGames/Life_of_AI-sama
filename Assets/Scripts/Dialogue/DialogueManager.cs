@@ -170,7 +170,7 @@ public class DialogueManager : MonoBehaviour
 
     private bool CheckConversationLength()
     {
-        return promptGenerator.GetInteractionCount() > 3;
+        return promptGenerator.GetInteractionCount() > 9;
     }
 
     public IEnumerator StartConversation()

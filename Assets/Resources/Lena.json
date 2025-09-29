@@ -18,9 +18,27 @@
             "id": "default",
             "allOptions": [
                 {
-                    "possibleAnswer": ["Asking about School Clubs"],
+                    "possibleAnswer": ["Mentioning School Clubs", "Asking about School Clubs", "School Clubs"],
                     "leadsToID": "clubs_all",
-                    "npcResponse": ["Oh yeah there are many cool clubs, where do I even start?", "Oh I know a few."]
+                    "npcResponse": ["Yes this schools has a handfull curricular activities."]
+                },
+                {
+                    "possibleAnswer": ["School hangout spots", "School gathering spots", "break spots", "Asking about schools places"],
+                    "leadsToID": "default",
+                    "npcResponse": ["Our school has many lovely gathering spots. Some of the more delinquent students tend to hang out on our roof. However, this is tolerated, until noon at least."],
+                    "conditionsUnlocked":["Area_Rooftop_Room"]
+                },
+                {
+                    "possibleAnswer": ["Asking about Lunch Options", "Mentioning Lunch"],
+                    "leadsToID": "default",
+                    "npcResponse": ["This school has no cafeteria, but a little cafe instead. It serves as the most common gathering spot."],
+                    "conditionsUnlocked":["Area_Cafeteria_Room"]
+                },
+                {
+                    "possibleAnswer": ["Asking about student council"],
+                    "npcResponse": ["If you have any inqueries or just want to help me with some paperwork, then come to the club room friday after class."],
+                    "leadsToID": "clubs_all",
+                    "conditionsUnlocked":["Area_Club_Room"]
                 }
             ]
         },
@@ -49,11 +67,16 @@
                 {
                     "possibleAnswer": ["Asking about which club they are in", "Asking about their favorite club"],
                     "leadsToID": "clubs_all",
-                    "npcResponse": ["I'm in the music club, since I do like singing and dancing."]
+                    "npcResponse": ["It is not a club, but I'm part of the student couincil."]
                 },
                 {
                     "possibleAnswer": ["Asking to list all clubs"],
-                    "npcResponse": ["Oh I just know a few, like the arts, music, tech club."],
+                    "npcResponse": ["There are the arts, music, tech and gymnastics clubs."],
+                    "leadsToID": "clubs_all"
+                },
+                {
+                    "possibleAnswer": ["Asking when the clubs meet"],
+                    "npcResponse": ["You'd best ask some of the club members themselves."],
                     "leadsToID": "clubs_all"
                 }
             ]

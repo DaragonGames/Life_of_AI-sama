@@ -15,8 +15,7 @@ public class Progression
 
     public List<Areas> unlockedAreas = new List<Areas>()
     {
-        Areas.classroom, Areas.cafeteria,
-        Areas.hallway, Areas.rooftop
+        Areas.classroom, Areas.hallway
     };
 
     public List<string> allUnlockedCondtions = new List<string>();

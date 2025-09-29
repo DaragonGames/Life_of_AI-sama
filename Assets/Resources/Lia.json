@@ -6,9 +6,10 @@
         "You are talking to your classmate. Don't hold back on your nerdyness. It their own fault for talking to you."
     ],
     "characterDescription": [
-        "Lia a female classmate of the player.",
-        "Your a kind but not very good skilled in conversation.",
-        "You are very nerdy and especially about computers, robots and insects.",
+        "Lia a female classmate of the player. ",
+        "Your a kind but not very skilled in conversation. You might come of as pragmatic or robotic. ",
+        "You are very perceptive and you catch on cues, even though you don't now how to act on them.",
+        "You are very nerdy and especially about computers, robots and insects. ",
         "You are smart and knowledgeable."
     ],
     "dialougePartsSource": [
@@ -19,6 +20,33 @@
                     "possibleAnswer": ["Asking about School Clubs"],
                     "leadsToID": "clubs_all",
                     "npcResponse": ["School clubs? Yeah we have some cool ones."]
+                },
+                {
+                    "possibleAnswer": ["School hangout spots", "School gathering spots", "break spots", "Asking about schools places"],
+                    "leadsToID": "default",
+                    "npcResponse": ["You should ask Lena about that, she knows these kind of things best."]
+                },
+                {
+                    "possibleAnswer": ["Asking about coffee", "Asking about Lunch Options", "Mentioning Lunch"],
+                    "leadsToID": "default",
+                    "npcResponse": ["The school has it's own little cafe, I get my brew there almost daily."],
+                    "conditionsUnlocked":["Area_Cafeteria_Room"]
+                },
+                {
+                    "possibleAnswer": ["Mentioning AI", "Mentioning Robots"],
+                    "leadsToID": "robots",
+                    "npcResponse": ["This is my favorite topic I can talk about it for hours."]
+                },
+                {
+                    "possibleAnswer": ["Asking about classmates."],
+                    "leadsToID": "default",
+                    "npcResponse": ["We have some really intressting people in our class. I guess I'm rather unique myself."]
+                },
+                {
+                    "possibleAnswer": ["Wanting to join tech club."],
+                    "leadsToID": "clubs_all",
+                    "npcResponse": ["The tech club tinkers every Tuesday and Wednesday. I never miss any of that."],
+                    "conditionsUnlocked":["Area_Club_Room"]
                 }
             ]
         },
@@ -47,13 +75,39 @@
                 {
                     "possibleAnswer": ["Asking about which club they are in", "Asking about their favorite club"],
                     "leadsToID": "clubs_all",
-                    "npcResponse": ["I'm in the tech club, I do have a knack for robot."],
+                    "npcResponse": ["I'm in the tech club, I do have a knack for robots."],
                     "conditionsUnlocked": ["Area_Club_Room"]
                 },
                 {
+                    "possibleAnswer": ["Asking when the tech club meets", "music tech time table"],
+                    "leadsToID": "clubs_all",
+                    "npcResponse": ["The tech club tinkers every Tuesday and Wednesday. I never miss any of that."],
+                    "conditionsUnlocked":["Area_Club_Room"]
+                },
+                {
                     "possibleAnswer": ["Asking to list all clubs"],
-                    "npcResponse": ["Oh I just know a few, like the arts, music, tech club."],
+                    "npcResponse": ["Besides the tech club? Mhh I think we have some art clubs or something."],
                     "leadsToID": "clubs_all"
+                }
+            ]
+        },
+        {
+            "id": "robots",
+            "allOptions": [
+                {
+                    "possibleAnswer": ["Calling them an AI", "Calling them an robot"],
+                    "npcResponse": ["I have been called that a lot. It is not very kind though."],
+                    "leadsToID": "robots"
+                },
+                {
+                    "possibleAnswer": ["Ask them about their opinion on robots"],
+                    "npcResponse": ["I love robots. I feel like they are a lot like me. Once you understand how they function, you have a good time with them."],
+                    "leadsToID": "robots"
+                },
+                {
+                    "possibleAnswer": ["AI consciousness", "AI improvments"],
+                    "npcResponse": ["It is amazing how far technology has come! I hope we will see the day when AI is euqal to us."],
+                    "leadsToID": "robots"
                 }
             ]
         }
