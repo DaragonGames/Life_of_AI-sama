@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class DialogueManager : MonoBehaviour
         {
             characterData.dialougeParts.Add(part.id, part);
         }
-        StartConversation();
+        StartCoroutine(StartConversation());
     }
 
     public void HandleUserInput(string input)
@@ -172,8 +173,15 @@ public class DialogueManager : MonoBehaviour
         return promptGenerator.GetInteractionCount() > 3;
     }
 
-    private void StartConversation()
+    public IEnumerator StartConversation()
     {
+        yield return new WaitForSeconds(0.2f);
+        if (GameManager.instance.progression.charactersMeetCounter[characterData.name] == 2)
+        {
+            ExpectedAnswer answer = characterData.dialougeParts["hint"].allOptions[0];
+            InternalDialogueResponse?.Invoke(answer.npcResponse[Random.Range(0, answer.npcResponse.Length)]);
+            yield break; 
+        }
         string[] prompt = promptGenerator.firstMessage(characterData);
         AIManager.TextRequest(prompt, false);
     }
